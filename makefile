@@ -1,10 +1,10 @@
 CC = g++
 CFLAGS = -Wall
 EXEC_NAME = BoostServer
-INCLUDES = -I/Users/michelguillaume/Documents/Michel/code/boost_server/boost_1_73_0
+INCLUDES = -I./boost_1_73_0/boost-master
 LIBS = 
 OBJ_FILES = http_server_async.cpp
-INSTALL_DIR = /Users/michelguillaume/Documents/Michel/code/boost_server/bin
+INSTALL_DIR = ./bin
 
 all : $(EXEC_NAME)
 

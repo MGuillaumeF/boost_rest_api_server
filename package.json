@@ -1,0 +1,21 @@
+{
+  "name": "boost_server",
+  "version": "0.0.1",
+  "description": "an example of boost rest api server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dlBoost" : "wget https://dl.bintray.com/boostorg/release/$npm_package_config_boost_version2/source/boost_$npm_package_config_boost_version.tar.bz2",
+    "uzBoost" : "tar --bzip2 -xf ./boost_$npm_package_config_boost_version.tar.bz2",
+    "pBoost" : "npm run dlBoost && npm run uzBoost",
+    "iDependencies" : "brew install g++ wget",
+    "make" : "make",
+    "firstInstall" : "npm run iDependencies && npm run pBoost"
+  },
+  "config" : {
+    "boost_version" : "1_73_0",
+    "boost_version2" : "1.73.0"
+  },
+  "author": "MGuillaumeF",
+  "license": "ISC"
+}

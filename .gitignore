@@ -1,0 +1,6 @@
+*.log
+*.o
+*.obj
+*.exe
+*.tar.bz2
+boost_1_73_0

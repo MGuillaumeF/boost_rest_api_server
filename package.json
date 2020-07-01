@@ -5,15 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dlBoost" : "wget https://dl.bintray.com/boostorg/release/$npm_package_config_boost_version2/source/boost_$npm_package_config_boost_version.tar.bz2",
-    "uzBoost" : "tar --bzip2 -xf ./boost_$npm_package_config_boost_version.tar.bz2",
-    "bBoost" : "./boost_$npm_package_config_boost_version/bootstrap.sh --prefix=./boost-master",
-    "i1Boost" : "./boost_$npm_package_config_boost_version/b2",
-    "i2Boost" : "./boost_$npm_package_config_boost_version/b2 install",
-    "pBoost" : "npm run dlBoost && npm run uzBoost",
-    "iDependencies" : "brew install g++ wget",
+    "iBoost" : "./install.sh",
+    "bCompile" : "clang++ http_server_async.cpp -std=c++11 -o HttpServerAsync",
     "make" : "make",
-    "firstInstall" : "npm run iDependencies && npm run pBoost"
+    "run" : "./BoostServer 0.0.0.0 8080 . 1"
   },
   "config" : {
     "boost_version" : "1_73_0",

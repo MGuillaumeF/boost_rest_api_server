@@ -12,7 +12,7 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
     return path.substr(pos);
   }();
 
-  std::string l_sMimeType = "application/text";
+  beast::string_view l_sMimeType = "application/text";
 
   if (iequals(ext, ".htm")) {
     l_sMimeType = "text/html";
@@ -57,8 +57,8 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
   } else if (iequals(ext, ".svgz")) {
     l_sMimeType = "image/svg+xml";
   }
-
-  return l_sMimeType
+    std::cout << l_sMimeType << std::endl;
+  return l_sMimeType;
 }
 
 HttpUtils::~HttpUtils() {}

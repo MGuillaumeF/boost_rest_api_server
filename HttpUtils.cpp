@@ -57,7 +57,7 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
   } else if (iequals(ext, ".svgz")) {
     l_sMimeType = "image/svg+xml";
   }
-    std::cout << l_sMimeType << std::endl;
+    std::cout << "MimeType of File found : " << l_sMimeType << std::endl;
   return l_sMimeType;
 }
 

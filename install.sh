@@ -4,3 +4,4 @@ cd ./boost_1_73_0/
 ./bootstrap.sh
 ./b2 toolset=clang threading=multi runtime-link=static  link=static cxxflags="-stdlib=libc++ -std=c++11" linkflags="-stdlib=libc++" address-model=64
 ./b2 install
+brew install clangd llvm

@@ -1,8 +1,15 @@
 #include "./HttpUtils.h"
 
+/**
+ * The default constructor of Utils class
+ */
 HttpUtils::HttpUtils() {}
 
-// Return a reasonable mime type based on the extension of a file.
+/**
+ *  Return a reasonable mime type based on the extension of a file.
+ * @param path the path of request
+ * @return the mime-type of file
+ */
 beast::string_view HttpUtils::getMimeType(beast::string_view path) {
   using beast::iequals;
   auto const ext = [&path] {
@@ -57,8 +64,22 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
   } else if (iequals(ext, ".svgz")) {
     l_sMimeType = "image/svg+xml";
   }
-    std::cout << "MimeType of File found : " << l_sMimeType << std::endl;
+  std::cout << "MimeType of File found : " << l_sMimeType << std::endl;
   return l_sMimeType;
 }
 
+/**
+ * Report a failure
+ * @param ec the error code
+ * @param what the explanation of error
+ */
+void HttpUtils::onFail(beast::error_code ec, char const* what)
+{
+    std::cerr << what << ": " << ec.message() << "\n";
+}
+
+/**
+ * 
+ * The default destructor of Utils class
+ */
 HttpUtils::~HttpUtils() {}

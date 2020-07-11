@@ -28,16 +28,8 @@ clean :
 	rm -rf *.gcno
 
 test : 
-	$(CC) -o $(INSTALL_DIR)/testHttpUtils ./bin/obj/HttpUtils.o ./tests/testHttpUtils.cpp $(LIBS) $(CFLAGS) -lboost_unit_test_framework
+	$(CC) -o $(INSTALL_DIR)/testHttpUtils ./bin/obj/HttpUtils.o ./tests/testHttpUtils.cpp $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
 	./$(INSTALL_DIR)/testHttpUtils --log_level=test_suite --log_format=XML > resultTU.xml
 coverage :
-	rm -rf coverage-report
-	lcov --zerocounters --directory .
-	$(CC) -o $(INSTALL_DIR)/testHttpUtils $(INSTALL_DIR)/obj/*.o $(LIBS)
-	$(MAKE) COMPILE_TYPE=code_coverage
-	$(MAKE) COMPILE_TYPE=code_coverage test
-	$(INSTALL_DIR)/testHttpUtils --log_level=test_suite
-	lcov --capture --directory $(INSTALL_DIR)/$(OBJ_DIR)/code_coverage --base-directory . -o salida.out
-	lcov --remove salida.out "*usr/include*" -o salida.oout
-	genhtml -o coverage_report salida.out
-	rm salida.out
+	lcov --directory . -c -o rapport.info --no-external
+	genhtml -o coverage_report -t "test_titre" rapport.info

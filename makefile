@@ -4,7 +4,7 @@ EXEC_NAME = BoostServer
 INCLUDES = -I/user/local/include
 LIBS =
 OBJ_DIR = obj
-OBJ_FILES = src/HttpUtils.o src/HttpSession.o src/HttpListener.o src/HttpServer.o
+OBJ_FILES = src/HttpUtils.o src/HttpSession.o src/HttpListener.o src/HttpServer.o src/main.o
 INSTALL_DIR = bin
 
 all : $(EXEC_NAME)

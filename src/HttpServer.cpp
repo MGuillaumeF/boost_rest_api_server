@@ -1,6 +1,6 @@
-#include "HttpListener.h"
+#include "HttpServer.h"
 
-void runServer(char* address, char* port, char* doc_root, char* threads) {
+HttpServer::HttpServer(char* address, char* port, char* doc_root, char* threads) {
     auto const l_address = net::ip::make_address(address);
     auto const l_port = static_cast<unsigned short>(std::atoi(port));
     auto const l_doc_root = std::make_shared<std::string>(doc_root);
@@ -25,25 +25,4 @@ void runServer(char* address, char* port, char* doc_root, char* threads) {
             ioc.run();
         });
     ioc.run();
-}
-
-int main(int argc, char* argv[])
-{
-    // Check command line arguments.
-    if (argc != 5)
-    {
-        std::cerr <<
-            "Usage: HttpServer <address> <port> <doc_root> <threads>\n" <<
-            "Example:\n" <<
-            "    HttpServer 0.0.0.0 8080 . 1\n";
-        return EXIT_FAILURE;
-    }
-    runServer(
-        argv[1],
-        argv[2],
-        argv[3],
-        argv[4]
-        );
-
-    return EXIT_SUCCESS;
 }

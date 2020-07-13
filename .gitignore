@@ -3,5 +3,10 @@
 *.obj
 *.exe
 *.tar.bz2
+*.gcda
+*.gcno
 boost_1_73_0
 bin
+report
+.vscode
+.DS_Store

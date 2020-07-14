@@ -4,7 +4,7 @@ EXEC_NAME = BoostServer
 INCLUDES = -I/user/local/include
 LIBS =
 INSTALL_DIR = bin
-SOURCES_DIR = src
+SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
 OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(OBJ_DIR)/main.o
 REPORT_DIR = report
@@ -39,7 +39,7 @@ purge :
 	rmdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
-	$(CC) -o $(INSTALL_DIR)/$(TEST_EXEC) ./bin/obj/Http* ./tests/testHttpUtils.cpp $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
+	$(CC) -o $(INSTALL_DIR)/$(TEST_EXEC) ./bin/obj/Http* ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
 	./$(INSTALL_DIR)/$(TEST_EXEC) --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
 coverage :
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist

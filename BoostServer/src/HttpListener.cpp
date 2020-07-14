@@ -25,7 +25,7 @@ void HttpListener::onAccept(beast::error_code ec, tcp::socket socket)
     else
     {
         // Create the session and run it
-        std::make_shared<session>(
+        std::make_shared<HttpSession>(
             std::move(socket),
             doc_root_)->run();
     }

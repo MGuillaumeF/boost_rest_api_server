@@ -127,7 +127,7 @@ void handle_request(beast::string_view doc_root, http::request<Body, http::basic
 }
 
 // Start the asynchronous operation
-void session::run()
+void HttpSession::run()
 {
     // We need to be executing within a strand to perform async operations
     // on the I/O objects in this session. Although not strictly necessary
@@ -135,11 +135,11 @@ void session::run()
     // thread-safe by default.
     net::dispatch(m_stream.get_executor(),
                     beast::bind_front_handler(
-                        &session::do_read,
+                        &HttpSession::do_read,
                         shared_from_this()));
 }
 
-void session::do_read()
+void HttpSession::do_read()
 {
     // Make the request empty before reading,
     // otherwise the operation behavior is undefined.
@@ -151,11 +151,11 @@ void session::do_read()
     // Read a request
     http::async_read(m_stream, m_buffer, m_req,
         beast::bind_front_handler(
-            &session::on_read,
+            &HttpSession::on_read,
             shared_from_this()));
 }
 
-void session::on_read(
+void HttpSession::on_read(
     beast::error_code ec,
     std::size_t bytes_transferred)
 {
@@ -172,7 +172,7 @@ void session::on_read(
     handle_request(*m_doc_root, std::move(m_req), m_lambda);
 }
 
-void session::on_write(
+void HttpSession::on_write(
     bool close,
     beast::error_code ec,
     std::size_t bytes_transferred)
@@ -196,7 +196,7 @@ void session::on_write(
     do_read();
 }
 
-void session::do_close()
+void HttpSession::do_close()
 {
     // Send a TCP shutdown
     beast::error_code ec;

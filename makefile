@@ -44,6 +44,13 @@ test :
 coverage :
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	lcov --directory . -c -o $(REPORT_DIR)/resultCoverage.info --no-external
-	genhtml -o $(REPORT_DIR)/coverage -t "test_titre" $(REPORT_DIR)/resultCoverage.info
+	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverage.info
 	rm -rf *.gcda
 	rm -rf *.gcno
+
+full : 
+	$(MAKE) purge
+	$(MAKE) prepare
+	$(MAKE) all
+	$(MAKE) test
+	$(MAKE) coverage

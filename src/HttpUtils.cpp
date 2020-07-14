@@ -21,11 +21,7 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
 
   beast::string_view l_sMimeType = "application/text";
 
-  if (iequals(ext, ".htm")) {
-    l_sMimeType = "text/html";
-  } else if (iequals(ext, ".html")) {
-    l_sMimeType = "text/html";
-  } else if (iequals(ext, ".php")) {
+  if (iequals(ext, ".htm") || iequals(ext, ".html") || iequals(ext, ".php")) {
     l_sMimeType = "text/html";
   } else if (iequals(ext, ".css")) {
     l_sMimeType = "text/css";
@@ -43,11 +39,7 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
     l_sMimeType = "video/x-flv";
   } else if (iequals(ext, ".png")) {
     l_sMimeType = "image/png";
-  } else if (iequals(ext, ".jpe")) {
-    l_sMimeType = "image/jpeg";
-  } else if (iequals(ext, ".jpeg")) {
-    l_sMimeType = "image/jpeg";
-  } else if (iequals(ext, ".jpg")) {
+  } else if (iequals(ext, ".jpe") || iequals(ext, ".jpeg") || iequals(ext, ".jpg")) {
     l_sMimeType = "image/jpeg";
   } else if (iequals(ext, ".gif")) {
     l_sMimeType = "image/gif";
@@ -55,13 +47,9 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
     l_sMimeType = "image/bmp";
   } else if (iequals(ext, ".ico")) {
     l_sMimeType = "image/vnd.microsoft.icon";
-  } else if (iequals(ext, ".tiff")) {
+  } else if (iequals(ext, ".tiff") || iequals(ext, ".tif")) {
     l_sMimeType = "image/tiff";
-  } else if (iequals(ext, ".tif")) {
-    l_sMimeType = "image/tiff";
-  } else if (iequals(ext, ".svg")) {
-    l_sMimeType = "image/svg+xml";
-  } else if (iequals(ext, ".svgz")) {
+  } else if (iequals(ext, ".svg") || iequals(ext, ".svgz")) {
     l_sMimeType = "image/svg+xml";
   }
   std::cout << "MimeType of File found : " << l_sMimeType << std::endl;

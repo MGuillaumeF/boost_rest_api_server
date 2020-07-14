@@ -7,6 +7,7 @@ INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
 OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(OBJ_DIR)/main.o
+SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp
 REPORT_DIR = report
 TEST_EXEC = BoostServerTest
 
@@ -39,18 +40,19 @@ purge :
 	rmdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
-	$(CC) -o $(INSTALL_DIR)/$(TEST_EXEC) ./bin/obj/Http* ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
-	./$(INSTALL_DIR)/$(TEST_EXEC) --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
-coverage :
-	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
+	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
+	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
+	rm -rf testHttpUtils.gcda
+	rm -rf testHttpUtils.gcno
 	lcov --directory . -c -o $(REPORT_DIR)/resultCoverage.info --no-external
 	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverage.info
 	rm -rf *.gcda
 	rm -rf *.gcno
+	rm -rf a.out
+	rm -rf $(SOURCES_DIR)/*.gch
 
 full : 
 	$(MAKE) purge
 	$(MAKE) prepare
 	$(MAKE) all
 	$(MAKE) test
-	$(MAKE) coverage

@@ -1,22 +1,22 @@
-#include "HttpListener.h"
+#include "HttpListener.hpp"
 
 // Start accepting incoming connections
-void listener::run()
+void HttpListener::run()
 {
     doAccept();
 }
 
-void listener::doAccept()
+void HttpListener::doAccept()
 {
     // The new connection gets its own strand
     acceptor_.async_accept(
         net::make_strand(ioc_),
         beast::bind_front_handler(
-            &listener::onAccept,
+            &HttpListener::onAccept,
             shared_from_this()));
 }
 
-void listener::onAccept(beast::error_code ec, tcp::socket socket)
+void HttpListener::onAccept(beast::error_code ec, tcp::socket socket)
 {
     if(ec)
     {

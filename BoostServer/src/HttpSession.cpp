@@ -1,5 +1,5 @@
 
-#include "HttpSession.h"
+#include "HttpSession.hpp"
 
 // Append an HTTP rel-path to a local filesystem path.
 // The returned path is normalized for the platform.

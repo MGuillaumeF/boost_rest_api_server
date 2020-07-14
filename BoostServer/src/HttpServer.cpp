@@ -1,4 +1,4 @@
-#include "HttpServer.h"
+#include "HttpServer.hpp"
 
 HttpServer::HttpServer(char* address, char* port, char* doc_root, char* threads) {
     auto const l_address = net::ip::make_address(address);
@@ -10,7 +10,7 @@ HttpServer::HttpServer(char* address, char* port, char* doc_root, char* threads)
     net::io_context ioc{l_threads};
 
     // Create and launch a listening port
-    std::make_shared<listener>(
+    std::make_shared<HttpListener>(
         ioc,
         tcp::endpoint{l_address, l_port},
         l_doc_root)->run();

@@ -7,14 +7,6 @@
 #include <boost/asio/dispatch.hpp>
 #include <boost/asio/strand.hpp>
 #include <boost/config.hpp>
-#include <algorithm>
-#include <cstdlib>
-#include <functional>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <thread>
-#include <vector>
 
 #include "./HttpUtils.hpp"
 
@@ -39,8 +31,7 @@ class HttpSession : public std::enable_shared_from_this<HttpSession>
         }
 
         template<bool isRequest, class Body, class Fields>
-        void
-        operator()(http::message<isRequest, Body, Fields>&& msg) const
+        void operator()(http::message<isRequest, Body, Fields>&& msg) const
         {
             // The lifetime of the message has to extend
             // for the duration of the async operation so
@@ -57,7 +48,7 @@ class HttpSession : public std::enable_shared_from_this<HttpSession>
                 self_.m_stream,
                 *sp,
                 beast::bind_front_handler(
-                    &HttpSession::on_write,
+                    &HttpSession::onWrite,
                     self_.shared_from_this(),
                     sp->need_eof()));
         }
@@ -84,18 +75,18 @@ public:
     // Start the asynchronous operation
     void run();
 
-    void do_read();
+    void doRead();
 
-    void on_read(
+    void onRead(
         beast::error_code ec,
         std::size_t bytes_transferred);
 
-    void on_write(
+    void onWrite(
         bool close,
         beast::error_code ec,
         std::size_t bytes_transferred);
 
-    void do_close();
+    void doClose();
 };
 
 #endif

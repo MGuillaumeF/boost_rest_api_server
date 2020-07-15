@@ -3,7 +3,7 @@
 
 // Append an HTTP rel-path to a local filesystem path.
 // The returned path is normalized for the platform.
-std::string path_cat(beast::string_view base, beast::string_view path)
+std::string pathCat(beast::string_view base, beast::string_view path)
 {
     if(base.empty())
         return std::string(path);
@@ -30,7 +30,7 @@ std::string path_cat(beast::string_view base, beast::string_view path)
 // contents of the request, so the interface requires the
 // caller to pass a generic lambda for receiving the response.
 template<class Body, class Allocator, class Send>
-void handle_request(beast::string_view doc_root, http::request<Body, http::basic_fields<Allocator>>&& req, Send&& send)
+void handleRequest(beast::string_view doc_root, http::request<Body, http::basic_fields<Allocator>>&& req, Send&& send)
 {
     // Returns a bad request response
     auto const bad_request =
@@ -83,7 +83,7 @@ void handle_request(beast::string_view doc_root, http::request<Body, http::basic
         return send(bad_request("Illegal request-target"));
 
     // Build the path to the requested file
-    std::string path = path_cat(doc_root, req.target());
+    std::string path = pathCat(doc_root, req.target());
     if(req.target().back() == '/')
         path.append("index.html");
 
@@ -135,11 +135,11 @@ void HttpSession::run()
     // thread-safe by default.
     net::dispatch(m_stream.get_executor(),
                     beast::bind_front_handler(
-                        &HttpSession::do_read,
+                        &HttpSession::doRead,
                         shared_from_this()));
 }
 
-void HttpSession::do_read()
+void HttpSession::doRead()
 {
     // Make the request empty before reading,
     // otherwise the operation behavior is undefined.
@@ -151,11 +151,11 @@ void HttpSession::do_read()
     // Read a request
     http::async_read(m_stream, m_buffer, m_req,
         beast::bind_front_handler(
-            &HttpSession::on_read,
+            &HttpSession::onRead,
             shared_from_this()));
 }
 
-void HttpSession::on_read(
+void HttpSession::onRead(
     beast::error_code ec,
     std::size_t bytes_transferred)
 {
@@ -163,16 +163,16 @@ void HttpSession::on_read(
 
     // This means they closed the connection
     if(ec == http::error::end_of_stream)
-        return do_close();
+        return doClose();
 
     if(ec)
         return HttpUtils::onFail(ec, "read");
 
     // Send the response
-    handle_request(*m_doc_root, std::move(m_req), m_lambda);
+    handleRequest(*m_doc_root, std::move(m_req), m_lambda);
 }
 
-void HttpSession::on_write(
+void HttpSession::onWrite(
     bool close,
     beast::error_code ec,
     std::size_t bytes_transferred)
@@ -186,17 +186,17 @@ void HttpSession::on_write(
     {
         // This means we should close the connection, usually because
         // the response indicated the "Connection: close" semantic.
-        return do_close();
+        return doClose();
     }
 
     // We're done with the response so delete it
     m_res = nullptr;
 
     // Read another request
-    do_read();
+    doRead();
 }
 
-void HttpSession::do_close()
+void HttpSession::doClose()
 {
     // Send a TCP shutdown
     beast::error_code ec;

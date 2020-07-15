@@ -30,7 +30,7 @@ install :
 	./b2 install
 	rm -r boost_1_73_0
 	rm -rf boost_1_73_0.tar.bz2
-	brew install clangd llvm lcov genhtml --verbose
+	brew install clangd llvm lcov genhtml doxygen --verbose
 
 prepare :
 	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"

@@ -22,6 +22,16 @@ $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cc
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
+install :
+	wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.bz2
+	tar --bzip2 -xf ./boost_1_73_0.tar.bz2
+	cd ./boost_1_73_0; ./bootstrap.sh; \
+	./b2 toolset=clang threading=multi runtime-link=static  link=static cxxflags="-stdlib=libc++ -std=c++11" linkflags="-stdlib=libc++" address-model=64; \
+	./b2 install
+	rm -r boost_1_73_0
+	rm -rf boost_1_73_0.tar.bz2
+	brew install clangd llvm lcov genhtml --verbose
+
 prepare :
 	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
 	mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
@@ -36,8 +46,8 @@ clean :
 	rm -rf *.gcno
 purge :
 	$(MAKE) clean
-	rmdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory not exist"
-	rmdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
+	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage

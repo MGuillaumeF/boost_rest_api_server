@@ -60,9 +60,11 @@ test :
 	rm -rf *.gcno
 	rm -rf a.out
 	rm -rf $(SOURCES_DIR)/*.gch
-
+doc :
+	doxygen docg.conf
 full : 
 	$(MAKE) purge
+	$(MAKE) doc
 	$(MAKE) prepare
 	$(MAKE) all
 	$(MAKE) test

@@ -16,6 +16,9 @@ namespace net = boost::asio;            // from <boost/asio.hpp>
 using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
 
 // Handles an HTTP server connection
+/**
+ * hello
+ */
 class HttpSession : public std::enable_shared_from_this<HttpSession>
 {
     // This is the C++11 equivalent of a generic lambda.

@@ -51,7 +51,7 @@ clean :
 	rm -rf $(SOURCES_DIR)/Logger/*.gch
 purge :
 	$(MAKE) clean
-	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
 	mkdir $(DOC_DIR) || echo $(DOC_DIR) directory already exist

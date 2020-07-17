@@ -7,8 +7,8 @@ LIBS =
 INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
-OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(OBJ_DIR)/main.o
-SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp
+OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(OBJ_DIR)/Logger/Logger.o $(OBJ_DIR)/Logger/LoggerConsole.o $(OBJ_DIR)/main.o
+SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp $(SOURCES_DIR)/Logger/Logger.hpp $(SOURCES_DIR)/Logger/Logger.cpp $(SOURCES_DIR)/Logger/LoggerConsole.hpp $(SOURCES_DIR)/Logger/LoggerConsole.cpp
 REPORT_DIR = report
 TEST_EXEC = BoostServerTest
 
@@ -36,6 +36,7 @@ install :
 prepare :
 	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
 	mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
+	mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
 
 clean : 
 	rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
@@ -62,6 +63,7 @@ test :
 	rm -rf a.out
 	rm -rf $(SOURCES_DIR)/*.gch
 doc :
+	mkdir doc || echo doc directory already exist
 	doxygen docg.conf
 full : 
 	$(MAKE) purge

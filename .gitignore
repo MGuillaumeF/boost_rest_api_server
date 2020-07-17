@@ -9,6 +9,6 @@
 *.tmp
 boost_1_73_0
 bin
-report
+doc
 .vscode
 .DS_Store

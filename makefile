@@ -1,5 +1,5 @@
 CC = clang++
-OSPM = brew
+OS_PM = brew
 CFLAGS = -stdlib=libc++ -std=c++11 -Wall
 EXEC_NAME = BoostServer
 INCLUDES = -I/user/local/include
@@ -9,7 +9,8 @@ SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
 OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(OBJ_DIR)/Logger/Logger.o $(OBJ_DIR)/Logger/LoggerConsole.o $(OBJ_DIR)/main.o
 SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp $(SOURCES_DIR)/Logger/Logger.hpp $(SOURCES_DIR)/Logger/Logger.cpp $(SOURCES_DIR)/Logger/LoggerConsole.hpp $(SOURCES_DIR)/Logger/LoggerConsole.cpp
-REPORT_DIR = report
+DOC_DIR = doc
+REPORT_DIR = $(DOC_DIR)/report
 TEST_EXEC = BoostServerTest
 
 all : $(EXEC_NAME)
@@ -31,26 +32,29 @@ install :
 	./b2 install
 	rm -r boost_1_73_0
 	rm -rf boost_1_73_0.tar.bz2
-	$(OSPM) install clangd llvm lcov genhtml doxygen --verbose
+	$(OS_PM) install clangd llvm lcov genhtml doxygen --verbose
 
 prepare :
 	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
 	mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
 	mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
-
 clean : 
 	rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
 	rm -rf $(OBJ_DIR)/*.o
+	rm -rf $(OBJ_DIR)/Logger/*.o
 	rm -rf $(INSTALL_DIR)/$(TEST_EXEC)
 	rm -rf $(REPORT_DIR)/resultTU.xml
 	rm -rf $(REPORT_DIR)/resultCoverage.info
 	rm -rf *.gcda
 	rm -rf *.gcno
+	rm -rf $(SOURCES_DIR)/*.gch
+	rm -rf $(SOURCES_DIR)/Logger/*.gch
 purge :
 	$(MAKE) clean
 	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
 	rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
+	mkdir $(DOC_DIR) || echo $(DOC_DIR) directory already exist
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
 	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
@@ -62,10 +66,11 @@ test :
 	rm -rf *.gcno
 	rm -rf a.out
 	rm -rf $(SOURCES_DIR)/*.gch
+	rm -rf $(SOURCES_DIR)/Logger/*.gch
 doc :
-	mkdir doc || echo doc directory already exist
+	mkdir $(DOC_DIR) || echo $(DOC_DIR) directory already exist
 	doxygen docg.conf
-full : 
+package : 
 	$(MAKE) purge
 	$(MAKE) doc
 	$(MAKE) prepare

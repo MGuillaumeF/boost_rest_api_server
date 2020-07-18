@@ -10,12 +10,13 @@
  */
 class LoggerConsole : public Logger
 {
-public:
+private:
     /**
      * To write a log message
      * @param msg The message to print
      */
     void write(const std::string &msg);
+public:
     /**
      * Destructor of Logger
      */

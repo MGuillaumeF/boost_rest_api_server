@@ -15,7 +15,8 @@ enum LEVEL
 };
 
 /**
- * class for log 
+ * @class abstract Logger
+ * @brief abstract class for generic definition of logger
  */
 class Logger
 {
@@ -26,14 +27,21 @@ private:
      */
     int m_level = 1;
 
+    /**
+     * To write a log message
+     * @param msg The message to print
+     */
+    virtual void write(const std::string &msg) = 0;
 public:
     /**
      * To get the log level of Logger
+     * @see LEVEL
      */
     int getLevel();
     /**
      * To set the log level of Logger
      * @param level The new level of logger
+     * @see LEVEL
      */
     void setLevel(int level);
     /**
@@ -56,11 +64,6 @@ public:
      * @param msg The message to print
      */
     void error(const std::string &msg);
-    /**
-     * To write a log message
-     * @param msg The message to print
-     */
-    virtual void write(const std::string &msg) = 0;
 };
 
 #endif // __LOGGER_H__

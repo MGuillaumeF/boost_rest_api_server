@@ -10,14 +10,25 @@
 
 #include "./HttpUtils.hpp"
 
-namespace beast = boost::beast;         // from <boost/beast.hpp>
-namespace http = beast::http;           // from <boost/beast/http.hpp>
-namespace net = boost::asio;            // from <boost/asio.hpp>
-using tcp = boost::asio::ip::tcp;       // from <boost/asio/ip/tcp.hpp>
-
-// Handles an HTTP server connection
 /**
- * hello
+ * from <boost/beast.hpp>
+ */
+namespace beast = boost::beast; 
+/**
+ * from <boost/beast/http.hpp>
+ */
+namespace http = beast::http;
+/**
+ * from <boost/asio.hpp>    
+ */
+namespace net = boost::asio;
+/**
+ * from <boost/asio/ip/tcp.hpp>
+ */
+using tcp = boost::asio::ip::tcp;
+
+/**
+ * Handles an HTTP server connection
  */
 class HttpSession : public std::enable_shared_from_this<HttpSession>
 {
@@ -25,16 +36,15 @@ class HttpSession : public std::enable_shared_from_this<HttpSession>
     // The function object is used to send an HTTP message.
     struct send_lambda
     {
-        HttpSession& self_;
+        HttpSession &self_;
 
-        explicit
-        send_lambda(HttpSession& self)
+        explicit send_lambda(HttpSession &self)
             : self_(self)
         {
         }
 
-        template<bool isRequest, class Body, class Fields>
-        void operator()(http::message<isRequest, Body, Fields>&& msg) const
+        template <bool isRequest, class Body, class Fields>
+        void operator()(http::message<isRequest, Body, Fields> &&msg) const
         {
             // The lifetime of the message has to extend
             // for the duration of the async operation so
@@ -64,16 +74,29 @@ class HttpSession : public std::enable_shared_from_this<HttpSession>
     std::shared_ptr<void> m_res;
     send_lambda m_lambda;
 
+    /** 
+     * Append an HTTP rel-path to a local filesystem path.
+     * The returned path is normalized for the platform.
+     */
+    std::string pathCat(beast::string_view base, beast::string_view path);
+
+    /** 
+     * This function produces an HTTP response for the given
+     * request. The type of the response object depends on the
+     * contents of the request, so the interface requires the
+     * caller to pass a generic lambda for receiving the response.
+     */
+    template <class Body, class Allocator, class Send>
+    void handleRequest(beast::string_view doc_root, http::request<Body, http::basic_fields<Allocator>> && req, Send && send);
+
 public:
     // Take ownership of the stream
     HttpSession(
-            tcp::socket&& socket,
-            std::shared_ptr<std::string const> const& doc_root)
-            : m_stream(std::move(socket))
-            , m_doc_root(doc_root)
-            , m_lambda(*this)
-        {
-        }
+        tcp::socket &&socket,
+        std::shared_ptr<std::string const> const &doc_root)
+        : m_stream(std::move(socket)), m_doc_root(doc_root), m_lambda(*this)
+    {
+    }
 
     // Start the asynchronous operation
     void run();

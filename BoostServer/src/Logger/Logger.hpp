@@ -15,8 +15,7 @@ enum LEVEL
 };
 
 /**
- * @class abstract Logger
- * @brief abstract class for generic definition of logger
+ * abstract class for generic definition of logger
  */
 class Logger
 {

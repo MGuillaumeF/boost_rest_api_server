@@ -25,6 +25,7 @@ $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
 
 install :
+	$(OS_PM) install wget --verbose
 	wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.bz2
 	tar --bzip2 -xf ./boost_1_73_0.tar.bz2
 	cd ./boost_1_73_0; ./bootstrap.sh; \
@@ -32,7 +33,10 @@ install :
 	./b2 install
 	rm -r boost_1_73_0
 	rm -rf boost_1_73_0.tar.bz2
-	$(OS_PM) install clangd llvm lcov genhtml doxygen --verbose
+	$(OS_PM) install llvm --verbose
+	$(OS_PM) install lcov --verbose
+	$(OS_PM) install doxygen --verbose
+	$(OS_PM) install graphviz --verbose
 
 prepare :
 	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"

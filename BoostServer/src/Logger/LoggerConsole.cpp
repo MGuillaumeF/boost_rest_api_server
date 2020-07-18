@@ -8,10 +8,3 @@ void LoggerConsole::write(const std::string &msg)
 {
     std::cout << msg << std::endl;
 }
-/**
- * Destructor of Logger
- */
-LoggerConsole::~LoggerConsole()
-{
-
-}

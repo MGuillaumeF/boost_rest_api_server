@@ -16,11 +16,6 @@ private:
      * @param msg The message to print
      */
     void write(const std::string &msg);
-public:
-    /**
-     * Destructor of Logger
-     */
-    ~LoggerConsole();
 };
 
 #endif // __LOGGERCONSOLE_H__

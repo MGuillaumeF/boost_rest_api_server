@@ -12,10 +12,6 @@ class LoggerFile : public Logger
 {
 private:
     /**
-     * 
-     */
-    std::fstream m_fs;
-    /**
      * To write a log message
      * @param msg The message to print
      */

@@ -2,7 +2,7 @@
 #define __HTTP_UTILS_H__
 
 #include <boost/beast/core.hpp>
-#include <iostream>
+#include "Logger/LoggerFile.hpp"
 
 namespace beast = boost::beast;         // from <boost/beast.hpp>
 /**

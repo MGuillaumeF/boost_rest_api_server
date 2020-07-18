@@ -4,7 +4,6 @@
  */
 LoggerFile::LoggerFile()
 {
-    m_fs.open("logfile.log", std::fstream::in | std::fstream::out | std::fstream::app);
 }
 /**
  * To write a log message
@@ -12,12 +11,14 @@ LoggerFile::LoggerFile()
  */
 void LoggerFile::write(const std::string &msg)
 {
-    m_fs << msg << std::endl;
+    std::fstream fs;
+    fs.open("logfile.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    fs << msg << std::endl;
+    fs.close();
 }
 /**
  * Destructor of Logger
  */
 LoggerFile::~LoggerFile()
 {
-    m_fs.close();
 }

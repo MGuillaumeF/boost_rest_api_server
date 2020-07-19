@@ -2,17 +2,14 @@
   "name": "boost_server",
   "version": "0.0.1",
   "description": "an example of boost rest api server",
-  "main": "index.js",
+  "main": "./bin/BoostServer",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "iBoost" : "./install.sh",
-    "bCompile" : "clang++ http_server_async.cpp -std=c++11 -o HttpServerAsync",
-    "make" : "make",
-    "run" : "./BoostServer 0.0.0.0 8080 . 1"
-  },
-  "config" : {
-    "boost_version" : "1_73_0",
-    "boost_version2" : "1.73.0"
+    "install" : "make install",
+    "build" : "make all",
+    "rebuild" : "make clean;make all",
+    "test": "make test",
+    "doc" : "make doc",
+    "start" : "./bin/BoostServer 0.0.0.0 8080 . 1"
   },
   "author": "MGuillaumeF",
   "license": "ISC"

@@ -1,4 +1,4 @@
-#include "./HttpUtils.hpp"
+#include "HttpUtils.hpp"
 
 /**
  * The default constructor of Utils class

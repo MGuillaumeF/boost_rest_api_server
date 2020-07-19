@@ -10,3 +10,5 @@ This example contain :
 - Unit Tests Coverage with `lcov`
 - Code Documentation with `Doxygen` and `GraphViz`
 - API Docuementation [TODO]
+
+See [unit test coverage of project](../report/coverage/index.html)

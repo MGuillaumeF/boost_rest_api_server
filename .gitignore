@@ -10,5 +10,6 @@
 boost_1_73_0
 bin
 doc
+report
 .vscode
 .DS_Store

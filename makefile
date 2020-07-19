@@ -8,7 +8,7 @@ INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
 DOC_DIR = doc
-REPORT_DIR = $(DOC_DIR)/report
+REPORT_DIR = report
 TEST_EXEC = BoostServerTest
 
 # All Logger object files
@@ -67,9 +67,10 @@ clean :
 purge :
 	$(MAKE) clean
 	rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
+	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
 	rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
-	mkdir $(DOC_DIR) || echo $(DOC_DIR) directory already exist
+	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
 	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
 	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
@@ -83,7 +84,7 @@ test :
 	rm -rf $(SOURCES_DIR)/*.gch
 	rm -rf $(SOURCES_DIR)/Logger/*.gch
 doc :
-	mkdir $(DOC_DIR) || echo $(DOC_DIR) directory already exist
+	rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	doxygen docg.conf
 package : 
 	$(MAKE) purge

@@ -7,7 +7,7 @@ LIBS =
 INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
-DOC_DIR = doc
+DOC_DIR = docs
 REPORT_DIR = report
 TEST_EXEC = BoostServerTest
 
@@ -92,3 +92,4 @@ package :
 	$(MAKE) prepare
 	$(MAKE) all
 	$(MAKE) test
+	mv report ./docs

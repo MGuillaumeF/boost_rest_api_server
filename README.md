@@ -11,4 +11,4 @@ This example contain :
 - Code Documentation with `Doxygen` and `GraphViz`
 - API Docuementation [TODO]
 
-See [unit test coverage of project](../report/coverage/index.html)
+See [unit test coverage of project](./report/coverage/index.html)

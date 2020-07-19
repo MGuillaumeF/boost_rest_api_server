@@ -61,6 +61,7 @@ clean :
 	rm -rf $(REPORT_DIR)/resultCoverage.info
 	rm -rf *.gcda
 	rm -rf *.gcno
+	rm -rf *.log
 	rm -rf $(SOURCES_DIR)/*.gch
 	rm -rf $(SOURCES_DIR)/Logger/*.gch
 purge :

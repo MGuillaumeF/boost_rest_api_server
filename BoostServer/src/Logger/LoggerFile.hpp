@@ -1,12 +1,21 @@
 #ifndef __LOGGERFILE_H__
 #define __LOGGERFILE_H__
 
-#include <string>
-#include <fstream>
+/**
+ * Logger is mother class of LoggerConsole
+ */
 #include "Logger.hpp"
+/**
+ * The string include is to message parameters of LoggerConsole
+ */
+#include <string>
+/**
+ * The fstream include is to print messages in file
+ */
+#include <fstream>
 
 /**
- * class for log in file
+ * Class for log in file
  */
 class LoggerFile : public Logger
 {

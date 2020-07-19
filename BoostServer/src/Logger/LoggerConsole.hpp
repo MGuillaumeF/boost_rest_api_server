@@ -1,9 +1,18 @@
 #ifndef __LOGGERCONSOLE_H__
 #define __LOGGERCONSOLE_H__
 
-#include <string>
-#include <iostream>
+/**
+ * Logger is mother class of LoggerConsole
+ */
 #include "Logger.hpp"
+/**
+ * The string include is to message parameters of LoggerConsole
+ */
+#include <string>
+/**
+ * The iostream include is to print messages in standard output or error output
+ */
+#include <iostream>
 
 /**
  * class for log in console

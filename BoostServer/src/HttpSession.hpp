@@ -8,6 +8,12 @@
 #include <boost/asio/strand.hpp>
 #include <boost/config.hpp>
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+// Short alias for this namespace
+namespace pt = boost::property_tree;
+
 #include "HttpUtils.hpp"
 
 /**

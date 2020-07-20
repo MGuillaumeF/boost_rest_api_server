@@ -1,1 +1,1 @@
-<TestLog><TestSuite name="testHttpUtils"><TestSuite name="testsHttpUtils" file="./BoostServer/tests/testHttpUtils.cpp" line="6"><TestCase name="testMimeType" file="./BoostServer/tests/testHttpUtils.cpp" line="8"><TestingTime>1840</TestingTime></TestCase></TestSuite></TestSuite></TestLog>
+<TestLog><TestSuite name="testHttpUtils"><TestSuite name="testsHttpUtils" file="./BoostServer/tests/testHttpUtils.cpp" line="6"><TestCase name="testMimeType" file="./BoostServer/tests/testHttpUtils.cpp" line="8"><TestingTime>46791</TestingTime></TestCase></TestSuite></TestSuite></TestLog>

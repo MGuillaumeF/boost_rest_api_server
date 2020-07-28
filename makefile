@@ -1,14 +1,50 @@
-CC = clang++
+OS_FAMILY :=
+OS_ARCH := 
 OS_PM = brew
+UNAME_S := $(shell uname -s)
+UNAME_P := $(shell uname -p)
+
+ifeq ($(OS),Windows_NT)
+	OS_FAMILY += WIN32
+	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
+		OS_ARCH += AMD64
+	endif
+	ifeq ($(PROCESSOR_ARCHITECTURE),x86)
+		OS_ARCH += IA32
+	endif
+else
+	ifeq ($(UNAMES_S),Linux)
+		OS_FAMILY += LINUX
+	endif
+	ifeq ($(UNAMES_S),Darwin)
+		OS_FAMILY += OSX
+	endif
+	ifeq ($(UNAMES_P),x86_64)
+		OS_ARCH += AMD64
+	endif
+	ifneq ($(filter %86,$(UNAME_P)),)
+		OS_ARCH += IA32
+	endif
+	ifneq ($(filter arm%,$(UNAME_P)),)
+		OS_ARCH += ARM
+	endif
+endif
+
+# Build configuration
+CC = clang++
 CFLAGS = -stdlib=libc++ -std=c++11 -Wall
-EXEC_NAME = BoostServer
 INCLUDES = -I/user/local/include
 LIBS =
+
+# Directories definition
 INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
 DOC_DIR = docs
 REPORT_DIR = report
+
+# Exe names
+EXEC_NAME = BoostServer
 TEST_EXEC = BoostServerTest
 
 # All Logger object files
@@ -41,50 +77,51 @@ install :
 	cd ./boost_1_73_0; ./bootstrap.sh; \
 	./b2 toolset=clang threading=multi runtime-link=static  link=static cxxflags="-stdlib=libc++ -std=c++11" linkflags="-stdlib=libc++" address-model=64; \
 	./b2 install
-	rm -r boost_1_73_0
-	rm -rf boost_1_73_0.tar.bz2
+	@rm -r boost_1_73_0
+	@rm -rf boost_1_73_0.tar.bz2
 	$(OS_PM) install llvm --verbose
 	$(OS_PM) install lcov --verbose
 	$(OS_PM) install doxygen --verbose
 	$(OS_PM) install graphviz --verbose
 
 prepare :
-	mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
-	mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
-	mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
+	@mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
+	@mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
+	@mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
 clean : 
-	rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
-	rm -rf $(OBJ_DIR)/*.o
-	rm -rf $(OBJ_DIR)/Logger/*.o
-	rm -rf $(INSTALL_DIR)/$(TEST_EXEC)
-	rm -rf $(REPORT_DIR)/resultTU.xml
-	rm -rf $(REPORT_DIR)/resultCoverage.info
-	rm -rf *.gcda
-	rm -rf *.gcno
-	rm -rf *.log
-	rm -rf $(SOURCES_DIR)/*.gch
-	rm -rf $(SOURCES_DIR)/Logger/*.gch
+	@rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
+	@rm -rf $(OBJ_DIR)/*.o
+	@rm -rf $(OBJ_DIR)/Logger/*.o
+	@rm -rf $(INSTALL_DIR)/$(TEST_EXEC)
+	@rm -rf $(REPORT_DIR)/resultTU.xml
+	@rm -rf $(REPORT_DIR)/resultCoverage.info
+	@rm -rf *.gcda
+	@rm -rf *.gcno
+	@rm -rf *.log
+	@rm -rf $(SOURCES_DIR)/*.gch
+	@rm -rf $(SOURCES_DIR)/Logger/*.gch
 purge :
+	echo "$(OS_FAMILY) $(OS_ARCH) $(UNAME_S) $(UNAME_P)"
 	$(MAKE) clean
-	rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
-	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
-	rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
+	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
+	@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	@rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
 test :
-	rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
-	mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
+	@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	@mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
 	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
-	rm -rf testHttpUtils.gcda
-	rm -rf testHttpUtils.gcno
+	@rm -rf testHttpUtils.gcda
+	@rm -rf testHttpUtils.gcno
 	lcov --directory . -c -o $(REPORT_DIR)/resultCoverage.info --no-external
 	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverage.info
-	rm -rf *.gcda
-	rm -rf *.gcno
-	rm -rf a.out
-	rm -rf $(SOURCES_DIR)/*.gch
-	rm -rf $(SOURCES_DIR)/Logger/*.gch
+	@rm -rf *.gcda
+	@rm -rf *.gcno
+	@rm -rf a.out
+	@rm -rf $(SOURCES_DIR)/*.gch
+	@rm -rf $(SOURCES_DIR)/Logger/*.gch
 doc :
-	rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
+	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	doxygen docg.conf
 package : 
 	$(MAKE) purge

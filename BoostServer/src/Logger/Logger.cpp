@@ -11,6 +11,7 @@ int Logger::getLevel()
 /**
  * To set the log level of Logger
  * @param level The new level of logger
+ * @see LEVEL
  */
 void Logger::setLevel(int level)
 {

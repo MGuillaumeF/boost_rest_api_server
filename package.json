@@ -9,7 +9,7 @@
     "rebuild" : "make clean;make all",
     "test": "make test",
     "doc" : "make doc",
-    "start" : "./bin/BoostServer 0.0.0.0 8080 . 1"
+    "start" : "cd ./bin;./BoostServer 0.0.0.0 8080 . 1"
   },
   "author": "MGuillaumeF",
   "license": "ISC"

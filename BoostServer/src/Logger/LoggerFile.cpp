@@ -12,7 +12,7 @@ LoggerFile::LoggerFile()
 void LoggerFile::write(const std::string &msg)
 {
     std::fstream fs;
-    fs.open("logfile.log", std::fstream::in | std::fstream::out | std::fstream::app);
+    fs.open("./logs/logfile.log", std::fstream::in | std::fstream::out | std::fstream::app);
     fs << msg << std::endl;
     fs.close();
 }

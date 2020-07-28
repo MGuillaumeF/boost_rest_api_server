@@ -1,32 +1,35 @@
-OS_FAMILY :=
-OS_ARCH := 
-OS_PM = brew
-UNAME_S := $(shell uname -s)
-UNAME_P := $(shell uname -p)
+OS_FAMILY =
+OS_ARCH =
+OS_PM =
 
-ifeq ($(OS),Windows_NT)
-	OS_FAMILY += WIN32
-	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
-		OS_ARCH += AMD64
+ifeq ($(OS), Windows_NT)
+	OS_FAMILY = WIN32
+	OS_PM = winget
+	ifeq ($(PROCESSOR_ARCHITECTURE), AMD64)
+		OS_ARCH = AMD64
 	endif
-	ifeq ($(PROCESSOR_ARCHITECTURE),x86)
-		OS_ARCH += IA32
+	ifeq ($(PROCESSOR_ARCHITECTURE), x86)
+		OS_ARCH = IA32
 	endif
 else
-	ifeq ($(UNAMES_S),Linux)
-		OS_FAMILY += LINUX
+	UNAMES_S := $(shell uname -s)
+	ifeq ($(UNAMES_S), Linux)
+		OS_FAMILY = LINUX
+		OS_PM = yum
 	endif
-	ifeq ($(UNAMES_S),Darwin)
-		OS_FAMILY += OSX
+	ifeq ($(UNAMES_S), Darwin)
+		OS_FAMILY = OSX
+		OS_PM = brew
 	endif
-	ifeq ($(UNAMES_P),x86_64)
-		OS_ARCH += AMD64
+	UNAMES_P := $(shell uname -p)
+	ifeq ($(UNAMES_P), x86_64)
+		OS_ARCH = AMD64
 	endif
-	ifneq ($(filter %86,$(UNAME_P)),)
-		OS_ARCH += IA32
+	ifneq ($(filter %86,$(UNAMES_P)),)
+		OS_ARCH = IA32
 	endif
-	ifneq ($(filter arm%,$(UNAME_P)),)
-		OS_ARCH += ARM
+	ifneq ($(filter arm%,$(UNAMES_P)),)
+		OS_ARCH = ARM
 	endif
 endif
 
@@ -40,6 +43,7 @@ LIBS =
 INSTALL_DIR = bin
 SOURCES_DIR = BoostServer/src
 OBJ_DIR = $(INSTALL_DIR)/obj
+LOGS_DIR = $(INSTALL_DIR)/logs
 DOC_DIR = docs
 REPORT_DIR = report
 
@@ -62,14 +66,15 @@ SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOUR
 all : $(EXEC_NAME)
 
 $(EXEC_NAME) : $(OBJ_FILES)
-	$(CC) -o $(INSTALL_DIR)/$(EXEC_NAME) $(OBJ_FILES) $(LIBS)
+	$(CC) -o $(INSTALL_DIR)/$(EXEC_NAME) $(OBJ_FILES) $(LIBS) > ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cc
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 
+# Install all dependencies of project
 install :
 	$(OS_PM) install wget --verbose
 	wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.bz2
@@ -87,7 +92,10 @@ install :
 prepare :
 	@mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
 	@mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
+	@mkdir $(LOGS_DIR) || echo "$(LOGS_DIR) directory already exist"
 	@mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
+
+# Clean appplication executable and temp files
 clean : 
 	@rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
 	@rm -rf $(OBJ_DIR)/*.o
@@ -100,33 +108,55 @@ clean :
 	@rm -rf *.log
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+
+# Clean compile files
+# Delete report, logs, documentations and build directories
 purge :
-	echo "$(OS_FAMILY) $(OS_ARCH) $(UNAME_S) $(UNAME_P)"
 	$(MAKE) clean
-	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	@rm -r $(LOGS_DIR) || echo "$(LOGS_DIR) directory not exist"
+	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	@rm -r $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory not exist"
+
+# Clean report directory
+# Build boost test application
+# Run boost test application to obtain TU report znd coverages traces
+# Delete coverage traces for boost test files
+# Generate coverage information report
+# Generate coverage html report
+# Delete coverage traces
 test :
 	@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
 	@mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
-	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage
+	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage > ./$(LOGS_DIR)/tests.log
 	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
 	@rm -rf testHttpUtils.gcda
 	@rm -rf testHttpUtils.gcno
-	lcov --directory . -c -o $(REPORT_DIR)/resultCoverage.info --no-external
-	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverage.info
+	lcov --directory . -c -o $(REPORT_DIR)/resultCoverage.info --no-external  >> ./$(LOGS_DIR)/tests.log
+	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverage.info  >> ./$(LOGS_DIR)/tests.log
 	@rm -rf *.gcda
 	@rm -rf *.gcno
 	@rm -rf a.out
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+
+# To generate the documentation with doxygen
 doc :
 	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
-	doxygen docg.conf
+	doxygen docg.conf > ./$(LOGS_DIR)/doxygen_info.log
+
+# To package application
+# -> clean old build files
+# -> generate documentation
+# -> prepare directories
+# -> build application
+# -> test application
 package : 
+	@echo OS : $(OS_FAMILY)
+	@echo PROCESSOR_ARCHITECTURE : $(OS_ARCH)
 	$(MAKE) purge
-	$(MAKE) doc
 	$(MAKE) prepare
+	$(MAKE) doc
 	$(MAKE) all
 	$(MAKE) test
 	mv report ./docs

@@ -9,7 +9,7 @@ This project use :
 - [llvm](https://llvm.org/) for clang compiler and LLD linker/debugger
 - [lcov](https://wiki.documentfoundation.org/Development/Lcov) for code coverage by a libreoffice 
 - [doxygen](https://www.doxygen.nl) for documentation generation (HTML, LaTex or man)
-- [graphViz]() for graph generation of doxygen documentation (dependencies diagram, classes diagram, call diagram)
+- [graphViz](https://graphviz.org) for graph generation of doxygen documentation (dependencies diagram, classes diagram, call diagram)
 - [boost library]() for unit test and server fonctionnalities (HTTP Server, JSON read/write or WebSocket)
 
 This example contain :

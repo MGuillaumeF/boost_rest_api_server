@@ -4,6 +4,13 @@
 
 This project is an example of HTTP Server Designed with Boost Library.
 
+This project use :
+
+- [llvm](https://llvm.org/) for clang compiler and LLD linker/debugger
+- [doxygen]() for documentation generation
+- [graphViz]() for graph generation of doxygen documentation
+- [boost library]() for unit test and server fonctionnalities 
+
 This example contain :
 
 - Unit Tests with `Boost TEST`

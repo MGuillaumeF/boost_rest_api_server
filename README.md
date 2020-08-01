@@ -12,7 +12,7 @@ This project use :
 - [graphViz](https://graphviz.org) version 2.42.1 under [Eclipse Public License 1.0](https://www.eclipse.org/legal/epl-v10.html) for graph generation of doxygen documentation (dependencies diagram, classes diagram, call diagram)
 - [boost library](https://www.boost.org) version 1.73.0 under [Boost Sofware License](https://www.boost.org/LICENSE_1_0.txt) for unit test and server fonctionnalities (HTTP Server, JSON read/write or WebSocket)
 
-> See [unit test coverage of project](./report/coverage/index.html)
+> See the [code coverage report of project](./report/coverage/index.html)
 
 ## Command for project
 

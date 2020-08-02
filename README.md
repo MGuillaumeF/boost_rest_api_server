@@ -35,3 +35,16 @@ make clean
 # remove all build directories
 make purge
 ```
+## Description du projet BoostServer
+
+Ce projet est un exemple de serveur HTTP construit avec la librairie Boost.
+Ce projet utilise :
+
+- [llvm](https://llvm.org) version 11.0.0 sous [LLVM Release License](https://releases.llvm.org/2.8/LICENSE.TXT) pour le compilateur clang et le linker/debugger LLD
+- [lcov](https://wiki.documentfoundation.org/Development/Lcov) version 1.14.1 sous [GNU General Public License v2.0](https://github.com/linux-test-project/lcov/blob/master/COPYING) pour la couverture de code 
+- [doxygen](https://www.doxygen.nl) version 1.8.18 sous [GNU General Public License v2.0](https://www.doxygen.nl/index.html) pour la documentation générée (HTML, LaTex ou man)
+- [graphViz](https://graphviz.org) version 2.42.1 sous [Eclipse Public License 1.0](https://www.eclipse.org/legal/epl-v10.html) pour les diagrammes UML générée pour la documentation doxygen (diagramme de dépendance, diagramme de classe, diagramme d'appel)
+- [boost library](https://www.boost.org) version 1.73.0 sous [Boost Sofware License](https://www.boost.org/LICENSE_1_0.txt) pour les tests unitaires et les fonctionnalités serveurs (serveur HTTP, JSON lecture/écrite ou WebSocket)
+
+> Voir le [rapport de couverture du projet](./report/coverage/index.html)
+

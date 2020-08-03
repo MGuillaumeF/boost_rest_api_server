@@ -35,7 +35,7 @@ endif
 
 # Build configuration
 CC = clang++
-CFLAGS = -stdlib=libc++ -std=c++11 -Wall
+CFLAGS = -stdlib=libc++ -std=c++11 -Wall --target=i686-pc-windows-gnu
 INCLUDES = -I/user/local/include
 LIBS =
 
@@ -88,6 +88,7 @@ install :
 	$(OS_PM) install lcov --verbose
 	$(OS_PM) install doxygen --verbose
 	$(OS_PM) install graphviz --verbose
+	$(OS_PM) install mingw-w64 --verbose
 
 prepare :
 	@mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"

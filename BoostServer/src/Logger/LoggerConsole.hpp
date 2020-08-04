@@ -17,14 +17,13 @@
 /**
  * class for log in console
  */
-class LoggerConsole : public Logger
-{
+class LoggerConsole : public Logger {
 private:
-    /**
-     * To write a log message
-     * @param msg The message to print
-     */
-    void write(const std::string &msg);
+  /**
+   * To write a log message
+   * @param msg The message to print
+   */
+  void write(const std::string &msg);
 };
 
 #endif // __LOGGERCONSOLE_H__

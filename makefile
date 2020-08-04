@@ -163,7 +163,7 @@ doc :
 	doxygen docg.conf > ./$(LOGS_DIR)/doxygen_info.log
 
 format :
-	find ./BoostServer '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i {} \;
+	find ./BoostServer '.+\.(cpp|hpp|cu|c|h)' -exec clang-format -style=file -i {} \;
 
 # To package application
 # -> clean old build files

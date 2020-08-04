@@ -17,23 +17,23 @@
 /**
  * Class for log in file
  */
-class LoggerFile : public Logger
-{
+class LoggerFile : public Logger {
 private:
-    /**
-     * To write a log message
-     * @param msg The message to print
-     */
-    void write(const std::string &msg);
+  /**
+   * To write a log message
+   * @param msg The message to print
+   */
+  void write(const std::string &msg);
+
 public:
-    /**
-     * Constructor of Logger
-     */
-    LoggerFile();
-    /**
-     * Destructor of Logger
-     */
-    ~LoggerFile();
+  /**
+   * Constructor of Logger
+   */
+  LoggerFile();
+  /**
+   * Destructor of Logger
+   */
+  ~LoggerFile();
 };
 
 #endif // __LOGGERFILE_H__

@@ -34,10 +34,17 @@ else
 endif
 
 # Build configuration
-CC = clang++
-CFLAGS = -stdlib=libc++ -std=c++11 -Wall --target=i686-pc-windows-gnu
-INCLUDES = -I/user/local/include
+CXX = clang++
+CXXFLAGS = -stdlib=libc++ -std=c++11 -Wall
+INCLUDES = -I/usr/local/include
 LIBS =
+
+# target list
+#--target=armv7-rpi3-linux-gnueabihf
+#--target=x86_64-pc-linux-gnu
+#--target=x86_64-apple-darwin19.5.0
+#--target=x86_64-w64-windows-gnu
+#--target=i686-pc-windows-gnu
 
 # Directories definition
 INSTALL_DIR = bin
@@ -66,13 +73,20 @@ SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOUR
 all : $(EXEC_NAME)
 
 $(EXEC_NAME) : $(OBJ_FILES)
-	$(CC) -o $(INSTALL_DIR)/$(EXEC_NAME) $(OBJ_FILES) $(LIBS) > ./$(LOGS_DIR)/compile.log
+	$(CXX) -o $(INSTALL_DIR)/$(EXEC_NAME) $(OBJ_FILES) $(LIBS) > ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cc
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
+
+# Build for Windows 32
+build-win32 :
+	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/usr/local/Cellar/mingw-w64/7.0.0_2/toolchain-i686/i686-w64-mingw32/include -I/usr/local/Cellar/llvm/10.0.0_3/include/c++/v1 $(INCLUDES) --target=i686-w64-windows-gnu > ./$(LOGS_DIR)/compile_win32.log
+# Build for Windows 64
+build-win64 :
+	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) $(INCLUDES) -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/usr/local/Cellar/mingw-w64/7.0.0_2/toolchain-x86_64/x86_64-w64-mingw32/include -I/usr/local/Cellar/llvm/10.0.0_3/include/c++/v1 --target=x86_64-w64-windows-gnu > ./$(LOGS_DIR)/compile_win64.log
 
 # Install all dependencies of project
 install :
@@ -89,6 +103,8 @@ install :
 	$(OS_PM) install doxygen --verbose
 	$(OS_PM) install graphviz --verbose
 	$(OS_PM) install mingw-w64 --verbose
+	$(OS_PM) install clang-format --verbose
+
 
 prepare :
 	@mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
@@ -129,7 +145,7 @@ purge :
 test :
 	@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
 	@mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
-	$(CC) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CFLAGS) -lboost_unit_test_framework --coverage > ./$(LOGS_DIR)/tests.log
+	$(CXX) $(SOURCES_FILES) ./BoostServer/tests/* $(LIBS) $(CXXFLAGS) -lboost_unit_test_framework --coverage > ./$(LOGS_DIR)/tests.log
 	./a.out --log_level=test_suite --log_format=XML > $(REPORT_DIR)/resultTU.xml
 	@rm -rf testHttpUtils.gcda
 	@rm -rf testHttpUtils.gcno

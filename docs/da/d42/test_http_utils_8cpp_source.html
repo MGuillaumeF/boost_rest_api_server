@@ -87,32 +87,32 @@ $(document).ready(function(){initNavTree('da/d42/test_http_utils_8cpp_source.htm
 <div class="contents">
 <a href="../../da/d42/test_http_utils_8cpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#define BOOST_TEST_DYN_LINK</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno"><a class="line" href="../../da/d42/test_http_utils_8cpp.html#a139f00d2466d591f60b8d6a73c8273f1">    2</a></span>&#160;<span class="preprocessor">#define BOOST_TEST_MODULE testHttpUtils</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../da/d42/test_http_utils_8cpp.html#a6b2a3852db8bb19ab6909bac01859985">    3</a></span>&#160;<span class="preprocessor">#include &lt;boost/test/included/unit_test.hpp&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../src/HttpUtils.hpp&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../da/d42/test_http_utils_8cpp.html#a6b2a3852db8bb19ab6909bac01859985">    3</a></span>&#160;<span class="preprocessor">#include &quot;../src/HttpUtils.hpp&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;boost/test/included/unit_test.hpp&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;BOOST_AUTO_TEST_SUITE(testsHttpUtils)</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="../../da/d42/test_http_utils_8cpp.html#ae35ae2cb056925e8e1b15b3840e8fe4f">    8</a></span>&#160;<a class="code" href="../../da/d42/test_http_utils_8cpp.html#ae35ae2cb056925e8e1b15b3840e8fe4f">BOOST_AUTO_TEST_CASE</a>(testMimeType) {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    beast::string_view mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;test.html&quot;</span>);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;text/html&quot;</span>);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;./&quot;</span>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;application/text&quot;</span>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;application/text&quot;</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  beast::string_view mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;test.html&quot;</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;text/html&quot;</span>);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;./&quot;</span>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;application/text&quot;</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;application/text&quot;</span>);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/image.jpe&quot;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;image/jpeg&quot;</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/image.jpe&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;image/jpeg&quot;</span>);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/textFile.txt&quot;</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;text/plain&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/textFile.txt&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;text/plain&quot;</span>);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/image.gif&quot;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;image/gif&quot;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/image.gif&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;image/gif&quot;</span>);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/file/without/extension&quot;</span>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    BOOST_CHECK_EQUAL(mimeType,<span class="stringliteral">&quot;application/text&quot;</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  mimeType = <a class="code" href="../../d2/da0/class_http_utils.html#a85cf36ec2d95041982b5cfbba6704fc9">HttpUtils::getMimeType</a>(<span class="stringliteral">&quot;file/to/file/without/extension&quot;</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  BOOST_CHECK_EQUAL(mimeType, <span class="stringliteral">&quot;application/text&quot;</span>);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;BOOST_AUTO_TEST_SUITE_END()</div>

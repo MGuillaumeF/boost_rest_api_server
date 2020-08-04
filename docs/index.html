@@ -89,14 +89,49 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <h1><a class="anchor" id="autotoc_md1"></a>
 Description of BoostServer Project</h1>
 <p>This project is an example of HTTP Server Designed with Boost Library.</p>
-<p>This example contain :</p>
+<p>This project use :</p>
 <ul>
-<li>Unit Tests with <code>Boost TEST</code></li>
-<li>Unit Tests Coverage with <code>lcov</code></li>
-<li>Code Documentation with <code>Doxygen</code> and <code>GraphViz</code></li>
-<li>API Docuementation [TODO]</li>
+<li><a href="https://llvm.org">llvm</a> version 11.0.0 under <a href="https://releases.llvm.org/2.8/LICENSE.TXT">LLVM Release License</a> for clang compiler and LLD linker/debugger</li>
+<li><a href="https://wiki.documentfoundation.org/Development/Lcov">lcov</a> version 1.14.1 under <a href="https://github.com/linux-test-project/lcov/blob/master/COPYING">GNU General Public License v2.0</a> for code test coverage</li>
+<li><a href="https://www.doxygen.nl">doxygen</a> version 1.8.18 under <a href="https://www.doxygen.nl/index.html">GNU General Public License v2.0</a> for documentation generation (HTML, LaTex or man)</li>
+<li><a href="https://graphviz.org">graphViz</a> version 2.42.1 under <a href="https://www.eclipse.org/legal/epl-v10.html">Eclipse Public License 1.0</a> for graph generation of doxygen documentation (dependencies diagram, classes diagram, call diagram)</li>
+<li><a href="https://www.boost.org">boost library</a> version 1.73.0 under <a href="https://www.boost.org/LICENSE_1_0.txt">Boost Sofware License</a> for unit test and server fonctionnalities (HTTP Server, JSON read/write or WebSocket)</li>
 </ul>
-<p>See <a href="./report/coverage/index.html">unit test coverage of project</a> </p>
+<blockquote class="doxtable">
+<p>See the <a href="./report/coverage/index.html">code coverage report of project</a> </p>
+</blockquote>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Command for project</h1>
+<div class="fragment"><div class="line"># prepare all directories for build, tests and documentation</div>
+<div class="line">make prepare</div>
+<div class="line"> </div>
+<div class="line"># build project</div>
+<div class="line">make</div>
+<div class="line"> </div>
+<div class="line"># generate documentation of project</div>
+<div class="line">make doc</div>
+<div class="line"> </div>
+<div class="line"># generate boost test project and run test program with test and coverage report (raw, xml and html output)</div>
+<div class="line">make test</div>
+<div class="line"> </div>
+<div class="line"># remove temporaries files of old tests and build</div>
+<div class="line">make clean</div>
+<div class="line"> </div>
+<div class="line"># remove all build directories</div>
+<div class="line">make purge</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+Description du projet BoostServer</h1>
+<p>Ce projet est un exemple de serveur HTTP construit avec la librairie Boost. Ce projet utilise :</p>
+<ul>
+<li><a href="https://llvm.org">llvm</a> version 11.0.0 sous <a href="https://releases.llvm.org/2.8/LICENSE.TXT">LLVM Release License</a> pour le compilateur clang et le linker/debugger LLD</li>
+<li><a href="https://wiki.documentfoundation.org/Development/Lcov">lcov</a> version 1.14.1 sous <a href="https://github.com/linux-test-project/lcov/blob/master/COPYING">GNU General Public License v2.0</a> pour la couverture de code</li>
+<li><a href="https://www.doxygen.nl">doxygen</a> version 1.8.18 sous <a href="https://www.doxygen.nl/index.html">GNU General Public License v2.0</a> pour la documentation générée (HTML, LaTex ou man)</li>
+<li><a href="https://graphviz.org">graphViz</a> version 2.42.1 sous <a href="https://www.eclipse.org/legal/epl-v10.html">Eclipse Public License 1.0</a> pour les diagrammes UML générée pour la documentation doxygen (diagramme de dépendance, diagramme de classe, diagramme d'appel)</li>
+<li><a href="https://www.boost.org">boost library</a> version 1.73.0 sous <a href="https://www.boost.org/LICENSE_1_0.txt">Boost Sofware License</a> pour les tests unitaires et les fonctionnalités serveurs (serveur HTTP, JSON lecture/écrite ou WebSocket)</li>
+</ul>
+<blockquote class="doxtable">
+<p>Voir le <a href="./report/coverage/index.html">rapport de couverture du projet</a> </p>
+</blockquote>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

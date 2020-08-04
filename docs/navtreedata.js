@@ -26,7 +26,9 @@ var NAVTREE =
 [
   [ "Boost server example", "index.html", [
     [ "BoostServer Project", "index.html", [
-      [ "Description of BoostServer Project", "index.html#autotoc_md1", null ]
+      [ "Description of BoostServer Project", "index.html#autotoc_md1", null ],
+      [ "Command for project", "index.html#autotoc_md2", null ],
+      [ "Description du projet BoostServer", "index.html#autotoc_md3", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Liste des classes", "annotated.html", "annotated_dup" ],

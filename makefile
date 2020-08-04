@@ -164,7 +164,7 @@ doc :
 
 # To format all sources with clang format and with llvm style
 format :
-	find ./BoostServer '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;
+	@find ./BoostServer '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
 
 # To package application
 # -> clean old build files

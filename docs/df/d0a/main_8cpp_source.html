@@ -88,28 +88,20 @@ $(document).ready(function(){initNavTree('df/d0a/main_8cpp_source.html','../../'
 <a href="../../df/d0a/main_8cpp.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/da1/_http_server_8hpp.html">HttpServer.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../df/d0a/main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">    4</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../df/d0a/main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[])</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;{</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">// Check command line arguments.</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">if</span> (argc != 5)</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        std::cerr &lt;&lt;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;            <span class="stringliteral">&quot;Usage: HttpServer &lt;address&gt; &lt;port&gt; &lt;doc_root&gt; &lt;threads&gt;\n&quot;</span> &lt;&lt;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            <span class="stringliteral">&quot;Example:\n&quot;</span> &lt;&lt;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="stringliteral">&quot;    HttpServer 0.0.0.0 8080 . 1\n&quot;</span>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// If configuration of server is in arguments of execution</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// server is started</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="../../dd/df3/class_http_server.html">HttpServer</a> server = <a class="code" href="../../dd/df3/class_http_server.html">HttpServer</a>(</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        argv[1],</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        argv[2],</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        argv[3],</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        argv[4]</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    );</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../df/d0a/main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">    4</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../df/d0a/main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[]) {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  <span class="comment">// Check command line arguments.</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  <span class="keywordflow">if</span> (argc != 5) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    std::cerr &lt;&lt; <span class="stringliteral">&quot;Usage: HttpServer &lt;address&gt; &lt;port&gt; &lt;doc_root&gt; &lt;threads&gt;\n&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;              &lt;&lt; <span class="stringliteral">&quot;Example:\n&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;              &lt;&lt; <span class="stringliteral">&quot;    HttpServer 0.0.0.0 8080 . 1\n&quot;</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <span class="comment">// If configuration of server is in arguments of execution</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="comment">// server is started</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  <a class="code" href="../../dd/df3/class_http_server.html">HttpServer</a> server = <a class="code" href="../../dd/df3/class_http_server.html">HttpServer</a>(argv[1], argv[2], argv[3], argv[4]);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="a_http_server_8hpp_html"><div class="ttname"><a href="../../dc/da1/_http_server_8hpp.html">HttpServer.hpp</a></div></div>

@@ -105,7 +105,7 @@ install :
 	$(OS_PM) install mingw-w64 --verbose
 	$(OS_PM) install clang-format --verbose
 
-
+# Create all directories for application
 prepare :
 	@mkdir $(INSTALL_DIR) || echo "$(INSTALL_DIR) directory already exist"
 	@mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
@@ -113,7 +113,7 @@ prepare :
 	@mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
 
 # Clean appplication executable and temp files
-clean : 
+clean :
 	@rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
 	@rm -rf $(OBJ_DIR)/*.o
 	@rm -rf $(OBJ_DIR)/Logger/*.o
@@ -162,8 +162,9 @@ doc :
 	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	doxygen docg.conf > ./$(LOGS_DIR)/doxygen_info.log
 
+# To format all sources with clang format and with llvm style
 format :
-	find ./BoostServer '.+\.(cpp|hpp|cu|c|h)' -exec clang-format -style=file -i {} \;
+	find ./BoostServer '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;
 
 # To package application
 # -> clean old build files
@@ -175,6 +176,7 @@ package :
 	@echo OS : $(OS_FAMILY)
 	@echo PROCESSOR_ARCHITECTURE : $(OS_ARCH)
 	$(MAKE) purge
+	$(MAKE) format
 	$(MAKE) prepare
 	$(MAKE) doc
 	$(MAKE) all

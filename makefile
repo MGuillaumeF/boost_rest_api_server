@@ -162,6 +162,9 @@ doc :
 	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
 	doxygen docg.conf > ./$(LOGS_DIR)/doxygen_info.log
 
+format :
+	find ./BoostServer '.*\.\(cpp\|hpp\|cu\|c\|h\)' -exec clang-format -style=file -i {} \;
+
 # To package application
 # -> clean old build files
 # -> generate documentation

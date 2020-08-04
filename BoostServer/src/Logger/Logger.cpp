@@ -15,7 +15,7 @@ int Logger::getLevel()
  */
 void Logger::setLevel(int level)
 {
-    if (level >= LEVEL::DEBUG && level <= LEVEL::ERROR)
+    if (level >= LEVEL::LDEBUG && level <= LEVEL::LERROR)
     {
         m_level = level;
     }
@@ -26,7 +26,7 @@ void Logger::setLevel(int level)
  */
 void Logger::debug(const std::string &msg)
 {
-    if (m_level == LEVEL::DEBUG)
+    if (m_level == LEVEL::LDEBUG)
     {
         write(msg);
     }
@@ -37,7 +37,7 @@ void Logger::debug(const std::string &msg)
  */
 void Logger::info(const std::string &msg)
 {
-    if (m_level <= LEVEL::INFO)
+    if (m_level <= LEVEL::LINFO)
     {
         write(msg);
     }
@@ -48,7 +48,7 @@ void Logger::info(const std::string &msg)
  */
 void Logger::warn(const std::string &msg)
 {
-    if (m_level <= LEVEL::INFO)
+    if (m_level <= LEVEL::LWARN)
     {
         write(msg);
     }
@@ -59,7 +59,7 @@ void Logger::warn(const std::string &msg)
  */
 void Logger::error(const std::string &msg)
 {
-    if (m_level <= LEVEL::ERROR)
+    if (m_level <= LEVEL::LERROR)
     {
         write(msg);
     }

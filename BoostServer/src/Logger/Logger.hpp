@@ -17,26 +17,26 @@ enum LEVEL
      * To print debug message with Logger to help dev  
      * value 0
      */
-    DEBUG = 0,
+    LDEBUG = 0,
     /**
      * The **information** level  
      * Default level of Logger for production mode  
      * To print information, normal message with Logger  
      * value 1
      */
-    INFO = 1,
+    LINFO = 1,
     /**
      * The **warnning** level  
      * To print warnning, important message with Logger  
      * value 2
      */
-    WARN = 2,
+    LWARN = 2,
     /**
      * The **error** level  
      * To print error, very important message with Logger  
      * value 3
      */
-    ERROR = 3
+    LERROR = 3
 };
 
 /**

@@ -83,7 +83,7 @@ $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
 
 # Build for OSX
 build-OSX:
-	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) $(INCLUDES) --target=x86_64-apple-darwin19.5.0 > ./$(LOGS_DIR)/compile_OSX.log
+	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) -lboost_unit_test_framework --coverage $(INCLUDES) --target=x86_64-apple-darwin19.5.0 > ./$(LOGS_DIR)/compile_OSX.log
 # Build for Windows 32
 build-win32 :
 	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/usr/local/Cellar/mingw-w64/7.0.0_2/toolchain-i686/i686-w64-mingw32/include -I/usr/local/Cellar/llvm/10.0.0_3/include/c++/v1 $(INCLUDES) --target=i686-w64-windows-gnu > ./$(LOGS_DIR)/compile_win32.log
@@ -160,6 +160,30 @@ test :
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
 
+# Clean report directory
+# Build boost test application
+# Run boost test application to obtain TU report znd coverages traces
+# Delete coverage traces for boost test files
+# Generate coverage information report
+# Generate coverage html report
+# Delete coverage traces
+test-with-runtime :
+	$(MAKE) test
+	#@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
+	#@mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
+	$(MAKE) build-OSX
+	./a.out 0.0.0.0 8080 . 1 &
+	sleep 30
+	curl http://localhost:8080/api/print
+	curl http://localhost:8080/api/stop || echo no response because server in shutdown
+	lcov --directory . -c -o $(REPORT_DIR)/resultCoverageRuntime.info --no-external  >> ./$(LOGS_DIR)/tests.log
+	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverageRuntime.info $(REPORT_DIR)/resultCoverage.info >> ./$(LOGS_DIR)/tests.log
+	@rm -rf *.gcda
+	@rm -rf *.gcno
+	@rm -rf a.out
+	@rm -rf $(SOURCES_DIR)/*.gch
+	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+
 # To generate the documentation with doxygen
 doc :
 	@rm -r $(DOC_DIR) || echo "$(DOC_DIR) directory not exist"
@@ -183,5 +207,5 @@ package :
 	$(MAKE) prepare
 	$(MAKE) doc
 	$(MAKE) all
-	$(MAKE) test
+	$(MAKE) test-with-runtime
 	mv report ./docs

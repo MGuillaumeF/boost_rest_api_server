@@ -140,7 +140,7 @@ purge :
 
 # Clean report directory
 # Build boost test application
-# Run boost test application to obtain TU report znd coverages traces
+# Run boost test application to obtain TU report and coverages traces
 # Delete coverage traces for boost test files
 # Generate coverage information report
 # Generate coverage html report
@@ -161,23 +161,20 @@ test :
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
 
 # Clean report directory
-# Build boost test application
-# Run boost test application to obtain TU report znd coverages traces
-# Delete coverage traces for boost test files
+# Build application with coverage flags
+# Run application to obtain coverages traces of HTTP Requests
 # Generate coverage information report
 # Generate coverage html report
 # Delete coverage traces
 test-with-runtime :
 	$(MAKE) test
-	#@rm -r $(REPORT_DIR) || echo "$(REPORT_DIR) directory not exist"
-	#@mkdir $(REPORT_DIR) || echo $(REPORT_DIR) directory already exist
 	$(MAKE) build-OSX
 	./a.out 0.0.0.0 8080 . 1 &
 	sleep 30
 	curl http://localhost:8080/api/print
 	curl http://localhost:8080/api/stop || echo no response because server in shutdown
-	lcov --directory . -c -o $(REPORT_DIR)/resultCoverageRuntime.info --no-external  >> ./$(LOGS_DIR)/tests.log
-	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverageRuntime.info $(REPORT_DIR)/resultCoverage.info >> ./$(LOGS_DIR)/tests.log
+	lcov --directory . -c -o $(REPORT_DIR)/resultCoverageRuntime.info --no-external  >> ./$(LOGS_DIR)/tests_runtimes.log
+	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverageRuntime.info $(REPORT_DIR)/resultCoverage.info >> ./$(LOGS_DIR)/tests_runtimes.log
 	@rm -rf *.gcda
 	@rm -rf *.gcno
 	@rm -rf a.out

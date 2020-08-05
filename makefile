@@ -81,6 +81,9 @@ $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.cc
 $(OBJ_DIR)/%.o: $(SOURCES_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $< >> ./$(LOGS_DIR)/compile.log
 
+# Build for OSX
+build-OSX:
+	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) $(INCLUDES) --target=x86_64-apple-darwin19.5.0 > ./$(LOGS_DIR)/compile_OSX.log
 # Build for Windows 32
 build-win32 :
 	$(CXX) $(SOURCES_FILES) $(SOURCES_DIR)/main.cpp $(LIBS) $(CXXFLAGS) -I/Library/Developer/CommandLineTools/usr/include/c++/v1 -I/usr/local/Cellar/mingw-w64/7.0.0_2/toolchain-i686/i686-w64-mingw32/include -I/usr/local/Cellar/llvm/10.0.0_3/include/c++/v1 $(INCLUDES) --target=i686-w64-windows-gnu > ./$(LOGS_DIR)/compile_win32.log

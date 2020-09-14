@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Boost Server Debugger",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/BoostServer",
+            "args": ["0.0.0.0", "8080", ".", "1"],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}/bin",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            //"setupCommands" : [
+            //    {
+            //        "description": "Enable pretty-printing for lldb",
+            //        "text" : "-enable-pretty-printing",
+            //        "ignoreFailures" : true
+            //    }
+            //],
+            // here call tasks.json for all build
+            //"preLaunchTask" : "",
+            "miDebuggerPath" : "/usr/bin/lldb",
+            //"logging": {
+            //    "moduleLoad": false,
+            //    "trace": true
+            //  },
+            "miDebuggerArgs" : "",
+            "showDisplayString": true
+        }
+    ]
+}

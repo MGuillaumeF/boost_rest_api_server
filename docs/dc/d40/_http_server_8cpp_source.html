@@ -105,10 +105,13 @@ $(document).ready(function(){initNavTree('dc/d40/_http_server_8cpp_source.html',
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="comment">// Run the I/O service on the requested number of threads</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  std::vector&lt;std::thread&gt; v;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  v.reserve(l_threads - 1);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = l_threads - 1; i &gt; 0; --i)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> i = l_threads - 1; i &gt; 0; --i) {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    v.emplace_back([&amp;ioc] { ioc.run(); });</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  ioc.run();</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  net::signal_set signals(ioc, SIGINT, SIGTERM);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  signals.async_wait(boost::bind(&amp;net::io_context::stop, &amp;ioc));</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  ioc.run();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclass_http_server_html_a65bda354405e54a4e3a183f762b20a85"><div class="ttname"><a href="../../dd/df3/class_http_server.html#a65bda354405e54a4e3a183f762b20a85">HttpServer::HttpServer</a></div><div class="ttdeci">HttpServer(char *address, char *port, char *doc_root, char *threads)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d40/_http_server_8cpp_source.html#l00003">HttpServer.cpp:3</a></div></div>

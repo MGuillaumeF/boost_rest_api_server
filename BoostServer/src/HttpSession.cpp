@@ -135,10 +135,6 @@ void HttpSession::handleRequest(
     return send(printResponse());
   }
 
-  if (req.target() == "/api/stop") {
-    throw "Stop server order";
-  }
-
   // Request path must be absolute and not contain "..".
   if (req.target().empty() || req.target()[0] != '/' ||
       req.target().find("..") != beast::string_view::npos)

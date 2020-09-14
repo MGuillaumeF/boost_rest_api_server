@@ -18,7 +18,10 @@ HttpServer::HttpServer(char *address, char *port, char *doc_root,
   // Run the I/O service on the requested number of threads
   std::vector<std::thread> v;
   v.reserve(l_threads - 1);
-  for (auto i = l_threads - 1; i > 0; --i)
+  for (auto i = l_threads - 1; i > 0; --i) {
     v.emplace_back([&ioc] { ioc.run(); });
+  }
+  net::signal_set signals(ioc, SIGINT, SIGTERM);
+  signals.async_wait(boost::bind(&net::io_context::stop, &ioc));
   ioc.run();
 }

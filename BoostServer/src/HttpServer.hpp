@@ -1,10 +1,15 @@
 #include "HttpListener.hpp"
+#include <boost/asio/signal_set.hpp>
 #include <thread>
+
 /**
- * hello3
+ * Http Server Class is to run and stop HTTP Server
  */
 class HttpServer {
 public:
+  /**
+   * HTTP Server definition and starting
+   */
   HttpServer(char *address, char *port, char *doc_root, char *threads);
   ~HttpServer() {}
 };

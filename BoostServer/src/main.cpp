@@ -9,14 +9,9 @@ int main(int argc, char *argv[]) {
               << "    HttpServer 0.0.0.0 8080 . 1\n";
     return EXIT_FAILURE;
   }
-  try {
-    // If configuration of server is in arguments of execution
-    // server is started
-    HttpServer server = HttpServer(argv[1], argv[2], argv[3], argv[4]);
-
-  } catch (...) {
-    std::cout << "Server stopped";
-  }
+  // If configuration of server is in arguments of execution
+  // server is started
+  HttpServer server = HttpServer(argv[1], argv[2], argv[3], argv[4]);
 
   return EXIT_SUCCESS;
 }

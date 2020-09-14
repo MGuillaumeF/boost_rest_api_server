@@ -172,7 +172,8 @@ test-with-runtime :
 	./a.out 0.0.0.0 8080 . 1 &
 	sleep 30
 	curl http://localhost:8080/api/print
-	curl http://localhost:8080/api/stop || echo no response because server in shutdown
+	sleep 15
+	pkill -15 a.out
 	lcov --directory . -c -o $(REPORT_DIR)/resultCoverageRuntime.info --no-external  >> ./$(LOGS_DIR)/tests_runtimes.log
 	genhtml --highlight --legend --output-directory $(REPORT_DIR)/coverage -t "Boost Server coverage report" $(REPORT_DIR)/resultCoverageRuntime.info $(REPORT_DIR)/resultCoverage.info >> ./$(LOGS_DIR)/tests_runtimes.log
 	@rm -rf *.gcda

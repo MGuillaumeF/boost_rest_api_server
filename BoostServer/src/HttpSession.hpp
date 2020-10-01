@@ -15,6 +15,7 @@
 namespace pt = boost::property_tree;
 
 #include "HttpUtils.hpp"
+#include "./HTTP/HttpFruitsEndpoint.hpp"
 
 /**
  * from <boost/beast.hpp>

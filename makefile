@@ -35,7 +35,7 @@ endif
 
 # Build configuration
 CXX = clang++
-CXXFLAGS = -stdlib=libc++ -std=c++11 -Wall
+CXXFLAGS = -stdlib=libc++ -std=c++17 -Wall
 INCLUDES = -I/usr/local/include
 LIBS =
 

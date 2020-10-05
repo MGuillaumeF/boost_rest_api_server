@@ -20,11 +20,76 @@ namespace http = beast::http;
 template <class Body, class Allocator, class Send>
 class HttpRestrictiveEndpoint {
 private:
-  bool m_postMethodAllowed;
-  bool m_getMethodAllowed;
-  bool m_putMethodAllowed;
-  bool m_deleteMethodAllowed;
-  bool m_patchMethodAllowed;
+  
+  void doGet() { writeNotImplementedResponse(); }
+  
+  void doPost() { writeNotImplementedResponse(); }
+  
+  void doPut() { writeNotImplementedResponse(); }
+  
+  void doDelete() { writeNotImplementedResponse(); }
+  
+  void doPatch() { writeNotImplementedResponse(); }
+
+protected:
+
+  http::request<Body, http::basic_fields<Allocator>> m_request;
+
+  Send m_send;
+  std::map<int, bool> m_allowedMethods;
+  
+ void writeMethodNotAllowed() {
+    http::response<http::string_body> res{http::status::method_not_allowed,
+                                          m_request.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "text/html");
+    res.keep_alive(m_request.keep_alive());
+    res.body() = "The method is not allowed.";
+    res.prepare_payload();
+    m_send(res);
+  }
+
+  
+  void writeNotImplementedResponse() {
+    http::response<http::string_body> res{http::status::not_implemented,
+                                          m_request.version()};
+    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(http::field::content_type, "text/html");
+    res.keep_alive(m_request.keep_alive());
+    res.body() = "The method is not implemented.";
+    res.prepare_payload();
+    m_send(res);
+  }
+
+  void handleRequest() {
+    try {
+      if (m_allowedMethods.at(m_request.method())) {
+        switch (m_request.method()) {
+        case http::verb::post:
+          doPost();
+          break;
+        case http::verb::get:
+          doGet();
+          break;
+        case http::verb::put:
+          doPut();
+          break;
+        case http::verb::patch:
+          doPatch();
+          break;
+        case http::verb::delete_:
+          doDelete();
+          break;
+        default:
+          writeNotImplementedResponse();
+        }
+      } else {
+        writeMethodNotAllowed();
+      }
+    } catch (std::out_of_range) {
+      writeMethodNotAllowed();
+    }
+  }
 
 public:
   /**
@@ -33,76 +98,26 @@ public:
   HttpRestrictiveEndpoint(
       http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send,
       bool allowPost = false, bool allowGet = false, bool allowPut = false,
-      bool allowDelete = false, bool allowPatch = false) {
-    m_postMethodAllowed = allowPost;
-    m_getMethodAllowed = allowGet;
-    m_putMethodAllowed = allowPut;
-    m_deleteMethodAllowed = allowDelete;
-    m_patchMethodAllowed = allowPatch;
-    handleRequest(req, send);
+      bool allowPatch = false, bool allowDelete = false)
+      : m_request(req), m_send(send) {
+
+    m_allowedMethods = {{http::verb::post, allowPost},
+                        {http::verb::get, allowGet},
+                        {http::verb::put, allowPut},
+                        {http::verb::patch, allowPatch},
+                        {http::verb::delete_, allowDelete}};
+    handleRequest();
   };
+  /**
+   * HTTP Endpoint where all method is not allowed by default
+   */
+  HttpRestrictiveEndpoint(
+      http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send,
+      std::map<int, bool> allowedMathods)
+      : m_request(req), m_send(send), m_allowedMethods(allowedMathods) {
 
-  void doGet(http::request<Body, http::basic_fields<Allocator>> &&req,
-             Send &&send) {
-    writeMethodNotAllowed(&req, &send);
-  }
-  void doPost(http::request<Body, http::basic_fields<Allocator>> &&req,
-              Send &&send) {
-    writeMethodNotAllowed(&req, &send);
-  }
-  void doPut(http::request<Body, http::basic_fields<Allocator>> &&req,
-             Send &&send) {
-    writeMethodNotAllowed(&req, &send);
-  }
-  void doDelete(http::request<Body, http::basic_fields<Allocator>> &&req,
-                Send &&send) {
-    writeMethodNotAllowed(&req, &send);
-  }
-  void doPatch(http::request<Body, http::basic_fields<Allocator>> &&req,
-               Send &&send) {
-    writeMethodNotAllowed(&req, &send);
-  }
-
-  void writeMethodNotAllowed(http::request<Body, http::basic_fields<Allocator>> &&req,
-               Send &&send) {
-    http::response<http::string_body> res{http::status::method_not_allowed,
-                                          req.version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/html");
-    res.keep_alive(req.keep_alive());
-    res.body() = "The method is not allowed.";
-    res.prepare_payload();
-    send(res);
-  }
-
-  void writeNotImplementedResponse(http::request<Body, http::basic_fields<Allocator>> &&req,
-               Send &&send) {
-    http::response<http::string_body> res{http::status::not_implemented,
-                                          req.version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/html");
-    res.keep_alive(req.keep_alive());
-    res.body() = "The method is not implemented.";
-    res.prepare_payload();
-    send(res);
-  }
-
-  void handleRequest(http::request<Body, http::basic_fields<Allocator>> &req,
-                     Send &send) {
-    if (m_postMethodAllowed && req.method() == http::verb::post) {
-      doPost(&req, &send);
-    } else if (m_getMethodAllowed && req.method() == http::verb::get) {
-      doGet(&req, &send);
-    } else if (m_putMethodAllowed && req.method() == http::verb::put) {
-      doPut(&req, &send);
-    } else if (m_deleteMethodAllowed && req.method() == http::verb::delete_) {
-      doDelete(&req, &send);
-    } else if (m_patchMethodAllowed && req.method() == http::verb::patch) {
-      doPatch(&req, &send);
-    } else {
-      writeMethodNotAllowed(&req, &send);
-    }
-  }
+    handleRequest();
+  };
 
   ~HttpRestrictiveEndpoint() {}
 };

@@ -10,19 +10,18 @@ class HttpFruitsEndpoint : public HttpRestrictiveEndpoint {
 
 
 public:
-    HttpFruitsEndpoint(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) : HttpRestrictiveEndpoint(&req, &send, false, true) {
+    HttpFruitsEndpoint(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) : HttpRestrictiveEndpoint(req, send, false, true) {
 
     }
-  void doGet(http::request<Body, http::basic_fields<Allocator>> &&req,
-             Send &&send) {
+  void doGet() {
     http::response<http::string_body> res{http::status::ok,
-                                          req.version()};
+                                          m_request.version()};
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
     res.set(http::field::content_type, "text/html");
-    res.keep_alive(req.keep_alive());
+    res.keep_alive(m_request.keep_alive());
     res.body() = "This is a response";
     res.prepare_payload();
-    send(res);
+    m_send(res);
   }
 };
 

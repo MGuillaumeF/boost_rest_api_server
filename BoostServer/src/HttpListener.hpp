@@ -7,22 +7,20 @@
 #include "HttpSession.hpp"
 #include "HttpUtils.hpp"
 
-namespace net = boost::asio;      // from <boost/asio.hpp>
-using tcp = boost::asio::ip::tcp; // from <boost/asio/ip/tcp.hpp>
-
 /**
  *  Accepts incoming connections and launches the sessions
  */
 class HttpListener : public std::enable_shared_from_this<HttpListener> {
-  net::io_context &m_ioc;
-  tcp::acceptor m_acceptor;
+  boost::asio::io_context &m_ioc;
+  boost::asio::ip::tcp::acceptor m_acceptor;
   std::shared_ptr<std::string const> m_doc_root;
 
 public:
   /**
    * Constructor of class
    */
-  HttpListener(net::io_context &ioc, tcp::endpoint endpoint,
+  HttpListener(boost::asio::io_context &ioc,
+               boost::asio::ip::tcp::endpoint endpoint,
                std::shared_ptr<std::string const> const &doc_root);
 
   /**
@@ -38,7 +36,8 @@ private:
   /**
    * Create the session for the new connection and run it
    */
-  void onAccept(beast::error_code ec, tcp::socket socket);
+  void onAccept(boost::beast::error_code ec,
+                boost::asio::ip::tcp::socket socket);
 };
 
 #endif

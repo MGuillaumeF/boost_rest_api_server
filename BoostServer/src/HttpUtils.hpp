@@ -4,7 +4,6 @@
 #include "Logger/LoggerFile.hpp"
 #include <boost/beast/core.hpp>
 
-namespace beast = boost::beast; // from <boost/beast.hpp>
 /**
  * Utilitaries functions in static class
  */
@@ -30,14 +29,14 @@ public:
    * @param path the path of request
    * @return the mime-type of file
    */
-  static beast::string_view getMimeType(beast::string_view path);
+  static boost::beast::string_view getMimeType(boost::beast::string_view path);
 
   /**
    * Report a failure
    * @param ec the error code
    * @param what the explanation of error
    */
-  static void onFail(beast::error_code ec, char const *what);
+  static void onFail(boost::beast::error_code ec, char const *what);
 
   /**
    * The default destructor of Utils class

@@ -14,8 +14,8 @@
 // Short alias for this namespace
 namespace pt = boost::property_tree;
 
+#include "./HTTP/HttpRestrictiveEndpoint.hpp"
 #include "HttpUtils.hpp"
-#include "./HTTP/HttpFruitsEndpoint.hpp"
 
 /**
  * from <boost/beast.hpp>
@@ -24,7 +24,7 @@ namespace beast = boost::beast;
 /**
  * from <boost/beast/http.hpp>
  */
-namespace http = beast::http;
+namespace http = boost::beast::http;
 /**
  * from <boost/asio.hpp>
  */
@@ -58,15 +58,15 @@ class HttpSession : public std::enable_shared_from_this<HttpSession> {
       self_.m_res = sp;
 
       // Write the response
-      http::async_write(self_.m_stream, *sp,
-                        beast::bind_front_handler(&HttpSession::onWrite,
-                                                  self_.shared_from_this(),
-                                                  sp->need_eof()));
+      http::async_write(
+          self_.m_stream, *sp,
+          boost::beast::bind_front_handler(
+              &HttpSession::onWrite, self_.shared_from_this(), sp->need_eof()));
     }
   };
 
-  beast::tcp_stream m_stream;
-  beast::flat_buffer m_buffer;
+  boost::beast::tcp_stream m_stream;
+  boost::beast::flat_buffer m_buffer;
   std::shared_ptr<std::string const> m_doc_root;
   http::request<http::string_body> m_req;
   std::shared_ptr<void> m_res;
@@ -76,7 +76,8 @@ class HttpSession : public std::enable_shared_from_this<HttpSession> {
    * Append an HTTP rel-path to a local filesystem path.
    * The returned path is normalized for the platform.
    */
-  std::string pathCat(beast::string_view base, beast::string_view path);
+  std::string pathCat(boost::beast::string_view base,
+                      boost::beast::string_view path);
 
   /**
    * This function produces an HTTP response for the given
@@ -85,7 +86,7 @@ class HttpSession : public std::enable_shared_from_this<HttpSession> {
    * caller to pass a generic lambda for receiving the response.
    */
   template <class Body, class Allocator, class Send>
-  void handleRequest(beast::string_view doc_root,
+  void handleRequest(boost::beast::string_view doc_root,
                      http::request<Body, http::basic_fields<Allocator>> &&req,
                      Send &&send);
 
@@ -100,9 +101,10 @@ public:
 
   void doRead();
 
-  void onRead(beast::error_code ec, std::size_t bytes_transferred);
+  void onRead(boost::beast::error_code ec, std::size_t bytes_transferred);
 
-  void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
+  void onWrite(bool close, boost::beast::error_code ec,
+               std::size_t bytes_transferred);
 
   void doClose();
 };

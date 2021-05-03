@@ -3,7 +3,7 @@
 HttpListener::HttpListener(net::io_context &ioc, tcp::endpoint endpoint,
                            std::shared_ptr<std::string const> const &doc_root)
     : m_ioc(ioc), m_acceptor(net::make_strand(ioc)), m_doc_root(doc_root) {
-  beast::error_code ec;
+  boost::beast::error_code ec;
 
   // Open the acceptor
   m_acceptor.open(endpoint.protocol(), ec);
@@ -39,12 +39,12 @@ void HttpListener::run() { doAccept(); }
 
 void HttpListener::doAccept() {
   // The new connection gets its own strand
-  m_acceptor.async_accept(
-      net::make_strand(m_ioc),
-      beast::bind_front_handler(&HttpListener::onAccept, shared_from_this()));
+  m_acceptor.async_accept(net::make_strand(m_ioc),
+                          boost::beast::bind_front_handler(
+                              &HttpListener::onAccept, shared_from_this()));
 }
 
-void HttpListener::onAccept(beast::error_code ec, tcp::socket socket) {
+void HttpListener::onAccept(boost::beast::error_code ec, tcp::socket socket) {
   if (ec) {
     HttpUtils::onFail(ec, "accept");
   } else {

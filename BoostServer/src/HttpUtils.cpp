@@ -10,16 +10,17 @@ HttpUtils::HttpUtils() {}
  * @param path the path of request
  * @return the mime-type of file
  */
-beast::string_view HttpUtils::getMimeType(beast::string_view path) {
-  using beast::iequals;
+boost::beast::string_view
+HttpUtils::getMimeType(boost::beast::string_view path) {
+  using boost::beast::iequals;
   auto const ext = [&path] {
     auto const pos = path.rfind(".");
-    if (pos == beast::string_view::npos)
-      return beast::string_view{};
+    if (pos == boost::beast::string_view::npos)
+      return boost::beast::string_view{};
     return path.substr(pos);
   }();
 
-  beast::string_view l_sMimeType = "application/text";
+  boost::beast::string_view l_sMimeType = "application/text";
 
   if (iequals(ext, ".htm") || iequals(ext, ".html") || iequals(ext, ".php")) {
     l_sMimeType = "text/html";
@@ -63,7 +64,7 @@ beast::string_view HttpUtils::getMimeType(beast::string_view path) {
  * @param ec the error code
  * @param what the explanation of error
  */
-void HttpUtils::onFail(beast::error_code ec, char const *what) {
+void HttpUtils::onFail(boost::beast::error_code ec, char const *what) {
   LoggerFile logger = LoggerFile();
   logger.error(std::string(what) + ": " + ec.message());
 }

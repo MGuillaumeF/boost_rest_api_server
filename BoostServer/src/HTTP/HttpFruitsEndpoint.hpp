@@ -8,16 +8,17 @@
 template <class Body, class Allocator, class Send>
 class HttpFruitsEndpoint : public HttpRestrictiveEndpoint {
 
-
 public:
-    HttpFruitsEndpoint(http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) : HttpRestrictiveEndpoint(req, send, false, true) {
-
-    }
+  HttpFruitsEndpoint(
+      boost::beast::http::request<
+          Body, boost::beast::http::basic_fields<Allocator>> &&req,
+      Send &&send)
+      : HttpRestrictiveEndpoint(req, send, false, true) {}
   void doGet() {
-    http::response<http::string_body> res{http::status::ok,
-                                          m_request.version()};
-    res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
-    res.set(http::field::content_type, "text/html");
+    boost::beast::http::response<boost::beast::http::string_body> res{
+        boost::beast::http::status::ok, m_request.version()};
+    res.set(boost::beast::http::field::server, BOOST_BEAST_VERSION_STRING);
+    res.set(boost::beast::http::field::content_type, "text/html");
     res.keep_alive(m_request.keep_alive());
     res.body() = "This is a response";
     res.prepare_payload();

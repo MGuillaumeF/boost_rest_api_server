@@ -5,8 +5,8 @@
  * Append an HTTP rel-path to a local filesystem path.
  * The returned path is normalized for the platform.
  */
-std::string HttpSession::pathCat(beast::string_view base,
-                                 beast::string_view path) {
+std::string HttpSession::pathCat(boost::beast::string_view base,
+                                 boost::beast::string_view path) {
   if (base.empty())
     return std::string(path);
   std::string result(base);
@@ -34,7 +34,7 @@ std::string HttpSession::pathCat(beast::string_view base,
  */
 template <class Body, class Allocator, class Send>
 void HttpSession::handleRequest(
-    beast::string_view doc_root,
+    boost::beast::string_view doc_root,
     http::request<Body, http::basic_fields<Allocator>> &&req, Send &&send) {
 
   // Returns a bad request response
@@ -92,7 +92,7 @@ void HttpSession::handleRequest(
   };
 
   // Returns a bad request response
-  auto const bad_request = [&req](beast::string_view why) {
+  auto const bad_request = [&req](boost::beast::string_view why) {
     http::response<http::string_body> res{http::status::bad_request,
                                           req.version()};
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
@@ -104,7 +104,7 @@ void HttpSession::handleRequest(
   };
 
   // Returns a not found response
-  auto const not_found = [&req](beast::string_view target) {
+  auto const not_found = [&req](boost::beast::string_view target) {
     http::response<http::string_body> res{http::status::not_found,
                                           req.version()};
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
@@ -116,7 +116,7 @@ void HttpSession::handleRequest(
   };
 
   // Returns a server error response
-  auto const server_error = [&req](beast::string_view what) {
+  auto const server_error = [&req](boost::beast::string_view what) {
     http::response<http::string_body> res{http::status::internal_server_error,
                                           req.version()};
     res.set(http::field::server, BOOST_BEAST_VERSION_STRING);
@@ -136,13 +136,12 @@ void HttpSession::handleRequest(
   }
 
   if (req.target() == "/api/fruits") {
-    HttpFruitsEndpoint fruits(req, send);
+    //HttpRestrictiveEndpoint fruits(req, send, false, true);
   }
-
 
   // Request path must be absolute and not contain "..".
   if (req.target().empty() || req.target()[0] != '/' ||
-      req.target().find("..") != beast::string_view::npos)
+      req.target().find("..") != boost::beast::string_view::npos)
     return send(bad_request("Illegal request-target"));
 
   // Build the path to the requested file
@@ -151,12 +150,12 @@ void HttpSession::handleRequest(
     path.append("index.html");
 
   // Attempt to open the file
-  beast::error_code ec;
+  boost::beast::error_code ec;
   http::file_body::value_type body;
-  body.open(path.c_str(), beast::file_mode::scan, ec);
+  body.open(path.c_str(), boost::beast::file_mode::scan, ec);
 
   // Handle the case where the file doesn't exist
-  if (ec == beast::errc::no_such_file_or_directory)
+  if (ec == boost::beast::errc::no_such_file_or_directory)
     return send(not_found(req.target()));
 
   // Handle an unknown error
@@ -193,9 +192,9 @@ void HttpSession::run() {
   // on the I/O objects in this session. Although not strictly necessary
   // for single-threaded contexts, this example code is written to be
   // thread-safe by default.
-  net::dispatch(
-      m_stream.get_executor(),
-      beast::bind_front_handler(&HttpSession::doRead, shared_from_this()));
+  net::dispatch(m_stream.get_executor(),
+                boost::beast::bind_front_handler(&HttpSession::doRead,
+                                                 shared_from_this()));
 }
 
 void HttpSession::doRead() {
@@ -207,12 +206,13 @@ void HttpSession::doRead() {
   m_stream.expires_after(std::chrono::seconds(30));
 
   // Read a request
-  http::async_read(
-      m_stream, m_buffer, m_req,
-      beast::bind_front_handler(&HttpSession::onRead, shared_from_this()));
+  http::async_read(m_stream, m_buffer, m_req,
+                   boost::beast::bind_front_handler(&HttpSession::onRead,
+                                                    shared_from_this()));
 }
 
-void HttpSession::onRead(beast::error_code ec, std::size_t bytes_transferred) {
+void HttpSession::onRead(boost::beast::error_code ec,
+                         std::size_t bytes_transferred) {
   boost::ignore_unused(bytes_transferred);
 
   // This means they closed the connection
@@ -226,7 +226,7 @@ void HttpSession::onRead(beast::error_code ec, std::size_t bytes_transferred) {
   handleRequest(*m_doc_root, std::move(m_req), m_lambda);
 }
 
-void HttpSession::onWrite(bool close, beast::error_code ec,
+void HttpSession::onWrite(bool close, boost::beast::error_code ec,
                           std::size_t bytes_transferred) {
   boost::ignore_unused(bytes_transferred);
 
@@ -248,7 +248,7 @@ void HttpSession::onWrite(bool close, beast::error_code ec,
 
 void HttpSession::doClose() {
   // Send a TCP shutdown
-  beast::error_code ec;
+  boost::beast::error_code ec;
   m_stream.socket().shutdown(tcp::socket::shutdown_send, ec);
 
   // At this point the connection is closed gracefully

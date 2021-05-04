@@ -2,17 +2,17 @@
 
 HttpServer::HttpServer(char *address, char *port, char *doc_root,
                        char *threads) {
-  auto const l_address = net::ip::make_address(address);
+  auto const l_address = boost::asio::ip::make_address(address);
   auto const l_port = static_cast<unsigned short>(std::atoi(port));
   auto const l_doc_root = std::make_shared<std::string>(doc_root);
   auto const l_threads = std::max<int>(1, std::atoi(threads));
 
   // The io_context is required for all I/O
-  net::io_context ioc{l_threads};
+  boost::asio::io_context ioc{l_threads};
 
   // Create and launch a listening port
-  std::make_shared<HttpListener>(ioc, tcp::endpoint{l_address, l_port},
-                                 l_doc_root)
+  std::make_shared<HttpListener>(
+      ioc, boost::asio::ip::tcp::endpoint{l_address, l_port}, l_doc_root)
       ->run();
 
   // Run the I/O service on the requested number of threads
@@ -21,7 +21,7 @@ HttpServer::HttpServer(char *address, char *port, char *doc_root,
   for (auto i = l_threads - 1; i > 0; --i) {
     v.emplace_back([&ioc] { ioc.run(); });
   }
-  net::signal_set signals(ioc, SIGINT, SIGTERM);
-  signals.async_wait(boost::bind(&net::io_context::stop, &ioc));
+  boost::asio::signal_set signals(ioc, SIGINT, SIGTERM);
+  signals.async_wait(boost::bind(&boost::asio::io_context::stop, &ioc));
   ioc.run();
 }

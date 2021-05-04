@@ -18,21 +18,9 @@ namespace pt = boost::property_tree;
 #include "HttpUtils.hpp"
 
 /**
- * from <boost/beast.hpp>
- */
-namespace beast = boost::beast;
-/**
  * from <boost/beast/http.hpp>
  */
 namespace http = boost::beast::http;
-/**
- * from <boost/asio.hpp>
- */
-namespace net = boost::asio;
-/**
- * from <boost/asio/ip/tcp.hpp>
- */
-using tcp = boost::asio::ip::tcp;
 
 /**
  * Handles an HTTP server connection
@@ -92,7 +80,7 @@ class HttpSession : public std::enable_shared_from_this<HttpSession> {
 
 public:
   // Take ownership of the stream
-  HttpSession(tcp::socket &&socket,
+  HttpSession(boost::asio::ip::tcp::socket &&socket,
               std::shared_ptr<std::string const> const &doc_root)
       : m_stream(std::move(socket)), m_doc_root(doc_root), m_lambda(*this) {}
 

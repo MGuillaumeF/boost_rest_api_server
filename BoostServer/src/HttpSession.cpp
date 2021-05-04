@@ -136,7 +136,7 @@ void HttpSession::handleRequest(
   }
 
   if (req.target() == "/api/fruits") {
-    //HttpRestrictiveEndpoint fruits(req, send, false, true);
+    // HttpRestrictiveEndpoint fruits(req, send, false, true);
   }
 
   // Request path must be absolute and not contain "..".
@@ -192,9 +192,9 @@ void HttpSession::run() {
   // on the I/O objects in this session. Although not strictly necessary
   // for single-threaded contexts, this example code is written to be
   // thread-safe by default.
-  net::dispatch(m_stream.get_executor(),
-                boost::beast::bind_front_handler(&HttpSession::doRead,
-                                                 shared_from_this()));
+  boost::asio::dispatch(m_stream.get_executor(),
+                        boost::beast::bind_front_handler(&HttpSession::doRead,
+                                                         shared_from_this()));
 }
 
 void HttpSession::doRead() {
@@ -249,7 +249,7 @@ void HttpSession::onWrite(bool close, boost::beast::error_code ec,
 void HttpSession::doClose() {
   // Send a TCP shutdown
   boost::beast::error_code ec;
-  m_stream.socket().shutdown(tcp::socket::shutdown_send, ec);
+  m_stream.socket().shutdown(boost::asio::ip::tcp::socket::shutdown_send, ec);
 
   // At this point the connection is closed gracefully
 }

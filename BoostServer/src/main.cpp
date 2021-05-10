@@ -1,6 +1,6 @@
 #include "HttpServer.hpp"
-#include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/xml_parser.hpp>
 #include <iostream>
 
 struct Server {
@@ -9,7 +9,6 @@ struct Server {
   std::string path;
   unsigned short thread;
   unsigned port;
-
 };
 
 typedef std::vector<Server> Servers;
@@ -26,13 +25,17 @@ int main(int argc, char *argv[]) {
   boost::property_tree::ptree pt;
   boost::property_tree::read_xml("../resources/configuration.xml", pt);
 
+  Servers confServers;
+  Server s;
 
-Servers confServers;
-    Server s;
-    s.description = pt.get<std::string>("server.description");
-    std::cerr << "description  : " << s.description;
-    confServers.push_back(s);
-
+  boost::property_tree::ptree servers = pt.get_child("servers");
+  for (const boost::property_tree::ptree::value_type& kv : servers) {
+    s.description = kv.second.get<std::string>("description");
+    std::cerr << "description  : " << s.description << std::endl;
+  }
+  //s.description = pt.get<std::string>("server.description");
+  //std::cerr << "description  : " << s.description;
+  //confServers.push_back(s);
 
   // If configuration of server is in arguments of execution
   // server is started

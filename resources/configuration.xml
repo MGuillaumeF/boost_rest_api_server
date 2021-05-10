@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<servers>
+<server>
+    <description>example of server 1 configuration</description>
+    <thread>1</thread>
+    <port>1</port>
+    <path>.</path>
+    <hostname>localhost</hostname>
+</server>
+<server>
+    <description>example of server 2 configuration</description>
+    <thread>1</thread>
+    <port>1</port>
+    <path>.</path>
+    <hostname>localhost</hostname>
+</server>
+</servers>

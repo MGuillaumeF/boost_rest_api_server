@@ -1,3 +1,6 @@
+#ifndef __HTTP_SERVER_HPP__
+#define __HTTP_SERVER_HPP__
+
 #include "HttpListener.hpp"
 #include <boost/asio/signal_set.hpp>
 #include <thread>
@@ -13,3 +16,5 @@ public:
   HttpServer(char *address, char *port, char *doc_root, char *threads);
   ~HttpServer() {}
 };
+
+#endif

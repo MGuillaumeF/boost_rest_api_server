@@ -26,7 +26,7 @@ protected:
       m_request;
 
   Send m_send;
-  std::map<int, bool> m_allowedMethods;
+  std::map<boost::beast::http::verb, bool> m_allowedMethods;
 
   void writeMethodNotAllowed() {
     boost::beast::http::response<boost::beast::http::string_body> res{
@@ -84,7 +84,7 @@ public:
   /**
    * HTTP Endpoint where all method is not allowed by default
    */
-  HttpRestrictiveEndpoint(
+  /*HttpRestrictiveEndpoint(
       boost::beast::http::request<
           Body, boost::beast::http::basic_fields<Allocator>> &&req,
       Send &&send, bool allowPost = false, bool allowGet = false,
@@ -97,15 +97,15 @@ public:
                         {boost::beast::http::verb::patch, allowPatch},
                         {boost::beast::http::verb::delete_, allowDelete}};
     handleRequest();
-  };
+  };*/
   /**
    * HTTP Endpoint where all method is not allowed by default
    */
   HttpRestrictiveEndpoint(
       boost::beast::http::request<
           Body, boost::beast::http::basic_fields<Allocator>> &&req,
-      Send &&send, std::map<int, bool> allowedMathods)
-      : m_request(req), m_send(send), m_allowedMethods(allowedMathods) {
+      Send &&send, std::map<boost::beast::http::verb, bool> allowedMethods)
+      : m_request(req), m_send(send), m_allowedMethods(allowedMethods) {
 
     handleRequest();
   };

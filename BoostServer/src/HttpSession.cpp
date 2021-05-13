@@ -136,7 +136,13 @@ void HttpSession::handleRequest(
   }
 
   if (req.target() == "/api/fruits") {
-    // HttpRestrictiveEndpoint fruits(req, send, false, true);
+    std::map<boost::beast::http::verb, bool> allowedMethods = {
+        {boost::beast::http::verb::post, false},
+        {boost::beast::http::verb::get, true},
+        {boost::beast::http::verb::put, false},
+        {boost::beast::http::verb::patch, false},
+        {boost::beast::http::verb::delete_, false}};
+    // HttpRestrictiveEndpoint fruits(req, send, allowedMethods);
   }
 
   // Request path must be absolute and not contain "..".

@@ -12,8 +12,8 @@ public:
   HttpFruitsEndpoint(
       boost::beast::http::request<
           Body, boost::beast::http::basic_fields<Allocator>> &&req,
-      Send &&send)
-      : HttpRestrictiveEndpoint(req, send, false, true) {}
+      Send &&send, std::map<boost::beast::http::verb, bool> allowedMethods)
+      : HttpRestrictiveEndpoint(req, send, allowedMethods) {}
   void doGet() {
     boost::beast::http::response<boost::beast::http::string_body> res{
         boost::beast::http::status::ok, m_request.version()};

@@ -61,14 +61,20 @@ TEST_EXEC = BoostServerTest
 # All Logger object files
 LOGGER_OBJ_FILES = $(OBJ_DIR)/Logger/Logger.o $(OBJ_DIR)/Logger/LoggerConsole.o $(OBJ_DIR)/Logger/LoggerFile.o 
 
+# All Configuration object files
+CONFIGURATION_OBJ_FILES = $(OBJ_DIR)/Configuration/ConfigurationServer.o 
+
 # All Obj files of project
-OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(LOGGER_OBJ_FILES) $(OBJ_DIR)/main.o
+OBJ_FILES = $(OBJ_DIR)/HttpUtils.o $(OBJ_DIR)/HttpSession.o $(OBJ_DIR)/HttpListener.o $(OBJ_DIR)/HttpServer.o $(LOGGER_OBJ_FILES) $(CONFIGURATION_OBJ_FILES) $(OBJ_DIR)/main.o
 
 # All Logger sources files
 LOGGER_SOURCES_FILES = $(SOURCES_DIR)/Logger/Logger.hpp $(SOURCES_DIR)/Logger/Logger.cpp $(SOURCES_DIR)/Logger/LoggerConsole.hpp $(SOURCES_DIR)/Logger/LoggerConsole.cpp $(SOURCES_DIR)/Logger/LoggerFile.hpp $(SOURCES_DIR)/Logger/LoggerFile.cpp
 
+# All Configuration object files
+CONFIGURATION_SOURCES_FILES = $(SOURCES_DIR)/Configuration/ConfigurationServer.hpp $(SOURCES_DIR)/Configuration/ConfigurationServer.cpp
+
 # All sources files without main.cpp for test compilation
-SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp $(LOGGER_SOURCES_FILES)
+SOURCES_FILES = $(SOURCES_DIR)/HttpUtils.hpp $(SOURCES_DIR)/HttpUtils.cpp $(SOURCES_DIR)/HttpListener.hpp $(SOURCES_DIR)/HttpListener.cpp $(SOURCES_DIR)/HttpSession.hpp $(SOURCES_DIR)/HttpSession.cpp $(SOURCES_DIR)/HttpServer.hpp $(SOURCES_DIR)/HttpServer.cpp $(LOGGER_SOURCES_FILES) $(CONFIGURATION_SOURCES_FILES)
 
 all : $(EXEC_NAME)
 
@@ -114,12 +120,14 @@ prepare :
 	@mkdir $(OBJ_DIR) || echo "$(OBJ_DIR) directory already exist"
 	@mkdir $(LOGS_DIR) || echo "$(LOGS_DIR) directory already exist"
 	@mkdir $(OBJ_DIR)/Logger || echo "$(OBJ_DIR)/Logger directory already exist"
+	@mkdir $(OBJ_DIR)/Configuration || echo "$(OBJ_DIR)/Configuration directory already exist"
 
 # Clean appplication executable and temp files
 clean :
 	@rm -rf $(INSTALL_DIR)/$(EXEC_NAME)
 	@rm -rf $(OBJ_DIR)/*.o
 	@rm -rf $(OBJ_DIR)/Logger/*.o
+	@rm -rf $(OBJ_DIR)/Configuration/*.o
 	@rm -rf $(INSTALL_DIR)/$(TEST_EXEC)
 	@rm -rf $(REPORT_DIR)/resultTU.xml
 	@rm -rf $(REPORT_DIR)/resultCoverage.info
@@ -128,6 +136,7 @@ clean :
 	@rm -rf *.log
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+	@rm -rf $(SOURCES_DIR)/Configuration/*.gch
 
 # Clean compile files
 # Delete report, logs, documentations and build directories
@@ -159,6 +168,7 @@ test :
 	@rm -rf a.out
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+	@rm -rf $(SOURCES_DIR)/Configuration/*.gch
 
 # Clean report directory
 # Build application with coverage flags
@@ -181,6 +191,7 @@ test-with-runtime :
 	@rm -rf a.out
 	@rm -rf $(SOURCES_DIR)/*.gch
 	@rm -rf $(SOURCES_DIR)/Logger/*.gch
+	@rm -rf $(SOURCES_DIR)/Configuration/*.gch
 
 # To generate the documentation with doxygen
 doc :
@@ -189,7 +200,11 @@ doc :
 
 # To format all sources with clang format and with llvm style
 format :
-	@find ./BoostServer '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
+	@find ./BoostServer/src '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
+	@find ./BoostServer/tests '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
+	@find ./BoostServer/Logger '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
+	@find ./BoostServer/HTTP '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
+	@find ./BoostServer/Configuration '.+\.(cpp|hpp|cu|cc|c|hh|h)' -exec clang-format -style=file -i {} \;||echo end of format
 
 # To package application
 # -> clean old build files
